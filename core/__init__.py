@@ -1,1 +1,1 @@
-__all__ = ["dbcreator"]
+__all__ = ["dbcreator","dbupdator","connectioninfo"]
