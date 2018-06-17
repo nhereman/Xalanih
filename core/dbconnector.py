@@ -1,9 +1,9 @@
-from utils.parameters import Parameters
-from core.mysql.mysqlconnector import MysqlConnector
-
 class DBConnector:
-    @staticmethod
-    def getConnector(params):
-        assert isinstance(params,Parameters)
-        return MysqlConnector(params)
-        
+    
+    def connect(self):
+        raise Exception("DbConnector-connect: DbConnector is abstract and \
+                            should not be called directly")
+
+    def getConnection(self):
+        raise Exception("DbConnector-getConnection: DbConnector is abstract \
+                            and should not be called directly")

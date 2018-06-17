@@ -35,4 +35,10 @@ The script **creation.ddl** is the entrypoint of Xalanih to create the database.
 When you will have a lot of update file, you will want to create the database directly with these modification instead of applying them after. In order to do that, you will have to add the modification directly to your *creation.ddl*. But in order for Xalanih to not apply the update scripts, you have to add the name of all update scripts already integrated to the file **included_updates**. There should be one filename by line.
 
 ## update *(directory)*
-The **update** directory must contains all your update scripts (and nothing else). There is not realy a nomenclature for the update scripts but the alphabetical order should correspond to their chronological order.
+The **update** directory must contains all your update scripts (and nothing else). There is not realy a nomenclature for the update scripts but the alphabetical order should correspond to their chronological order. Also, no patch can be named *initial_install*. This is because this name is associated to the creation of the database
+
+# Table created by xalanih: xalanih_updates
+
+The table xalanih_patches contains 2 columns:
+id, update_name, and update_apply_time.
+It is used by the script to detect which patches have already been applied. The patch name associated to the initial creation of the database is **initial_install**.

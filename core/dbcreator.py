@@ -1,5 +1,7 @@
-from utils import parameters
+from utils.parameters import Parameters
 
 class DBCreator:
-    def __init__(self, parameters):
-        self.parameters = parameters
+    
+    def createDatabase(self):
+        raise Exception("DBCreator-createDatabase: DbCreator is abstract and \
+                            should not be called directly")
