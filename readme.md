@@ -1,5 +1,7 @@
 # Technical Requirements
 - Python 3.6
+- mysqlclient
+- sqlparse
 
 # How to use Xalanih
 
@@ -18,10 +20,10 @@ The structure to use for the directory that contains all the scripts you have fo
 
 ```
 L creation (directory)
-    L  creation.ddl (file)
+    L  creation.sql (file)
     L  included_updates (file)
 L update (directory)
-    L  script01.ddl (file)
+    L  script01.sql (file)
     L  ...
 ```
 

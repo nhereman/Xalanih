@@ -1,7 +1,9 @@
 from core.dbcreator import DBCreator
 from core.mysql.mysqlconnector import MysqlConnector
 from core.mysql.mysqlchecker import MysqlChecker
+from core.mysql.mysqlfileexecutor import MysqlFileExecutor
 from utils.parameters import Parameters
+import sqlparse
 
 class MysqlCreator(DBCreator):
 
@@ -20,9 +22,9 @@ class MysqlCreator(DBCreator):
 
     def __createXalanihTable(self):
         if self.checker.doesXalanihTableExists():
-            raise Exception("MysqlCreator-__createXalanihTable: The table \
-                                xalanih_updates already exists. Stopping the \
-                                creation of the database.")
+            raise Exception("MysqlCreator-__createXalanihTable: The table "
+                                "xalanih_updates already exists. Stopping the "
+                                "creation of the database.")
         print("Creation of the table xalanih_updates ...")
         self.connector.getConnection().query(
             "CREATE TABLE xalanih_updates (\
@@ -33,7 +35,23 @@ class MysqlCreator(DBCreator):
         )
     
     def __executeCreationScript(self):
-        pass # TODO
+        try:
+            creation_file = open(self.params.getDirectory() +  "/creation/creation.sql")
+            print("Execution of the creation script...")
+            MysqlFileExecutor.execute(self.connector, creation_file)                
+        except IOError:
+            raise Exception("The file 'creation/creation.sql' can not be opened.")
 
     def __fillXalanihTable(self):
-        pass # TODO
+        cursor = self.connector.getConnection().cursor()
+        try:
+            inc_updates_file = open(self.params.getDirectory() + "creation/included_updates")
+            for line in inc_updates_file:
+                if line != "":
+                    update = line.strip()
+                    cursor.execute(
+                        "INSERT INTO xalanih_updates (`update_name`, `update_apply_time`)"
+                        "VALUES (%s, NOW())",[update])
+            self.connector.getConnection().commit()
+        except IOError:
+            print("The file creation/included_updates does not exist. Skipping the filling step.")
