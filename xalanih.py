@@ -1,7 +1,7 @@
 ##-*- coding: utf-8 -*-
 from utils import parameters
 from core.dbcreatorfactory import DBCreatorFactory
-from core import dbupdator
+from core.dbupdatorfactory import DBUpdatorFactory
 from core.dbconnectorfactory import DBConnectorFactory
 from core.dbcheckerfactory import DBCheckerFactory
 
@@ -21,9 +21,11 @@ checker = DBCheckerFactory.getChecker(params, connector)
 if (action == "create"):
     print("Creating db ...")
     creator = DBCreatorFactory.getCreator(params,connector, checker)
-    updator = dbupdator.DBUpdator(params)
+    updator = DBUpdatorFactory.getUpdator(params,connector,checker)
     
     creator.createDatabase()
+    updator.applyUpdates()
 elif (action == "update"):
     print("Updating db ...")
-    updator = dbupdator.DBUpdator(params)
+    updator = DBUpdatorFactory.getUpdator(params,connector,checker)
+    updator.applyUpdates()

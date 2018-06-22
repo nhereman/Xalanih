@@ -37,7 +37,7 @@ class MysqlCreator(DBCreator):
     def __executeCreationScript(self):
         try:
             creation_file = open(self.params.getDirectory() +  "/creation/creation.sql")
-            print("Execution of the creation script...")
+            print("\tExecution of the creation script...")
             MysqlFileExecutor.execute(self.connector, creation_file)                
         except IOError:
             raise Exception("The file 'creation/creation.sql' can not be opened.")
@@ -49,6 +49,7 @@ class MysqlCreator(DBCreator):
             for line in inc_updates_file:
                 if line != "":
                     update = line.strip()
+                    print("\tApplying the update " + update + ".")
                     cursor.execute(
                         "INSERT INTO xalanih_updates (`update_name`, `update_apply_time`)"
                         "VALUES (%s, NOW())",[update])
