@@ -1,31 +1,30 @@
 ##-*- coding: utf-8 -*-
 from utils import parameters
-from core.dbcreatorfactory import DBCreatorFactory
-from core.dbupdatorfactory import DBUpdatorFactory
+from core.dbcreator import DBCreator
+from core.dbupdator import DBUpdator
 from core.dbconnectorfactory import DBConnectorFactory
-from core.dbcheckerfactory import DBCheckerFactory
+from core.requesthandlerfactory import RequestHandlerFactory
 
+# Get parameters
 params = parameters.Parameters()
 action = params.getAction()
 
 print("Directory: " + params.getDirectory())
 print("Database type: " + params.getTypeOfDatabase())
 
-connector = DBConnectorFactory.getConnector(params)
+# Connecting database
 print("Connection to the database ...")
-connector.connect()
+connection = DBConnectorFactory.getConnection(params)
+request_handler = RequestHandlerFactory.getRequestHandler(params)
 print("Connected.")
-
-checker = DBCheckerFactory.getChecker(params, connector)
 
 if (action == "create"):
     print("Creating db ...")
-    creator = DBCreatorFactory.getCreator(params,connector, checker)
-    updator = DBUpdatorFactory.getUpdator(params,connector,checker)
-    
+    creator = DBCreator(params.getDirectory(), connection, request_handler)
+    updator = DBUpdator(params.getDirectory(),connection,request_handler)
     creator.createDatabase()
     updator.applyUpdates()
 elif (action == "update"):
     print("Updating db ...")
-    updator = DBUpdatorFactory.getUpdator(params,connector,checker)
+    updator = DBUpdator(params.getDirectory(),connection,request_handler)
     updator.applyUpdates()

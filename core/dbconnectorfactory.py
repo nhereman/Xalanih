@@ -3,10 +3,14 @@ from core.mysql.mysqlconnector import MysqlConnector
 
 class DBConnectorFactory:
     @staticmethod
-    def getConnector(params):
+    def getConnection(params):
         assert isinstance(params,Parameters)
+        connector = None
         dbType = params.getTypeOfDatabase()
         if(dbType == "mysql"):
-            return MysqlConnector(params)
-        raise Exception("DBConnectorFactory: This type of database is not managed :" + dbType + ".")
+            connector = MysqlConnector(params)
+        if connector == None:
+            raise Exception("DBConnectorFactory: This type of database" 
+                                "is not managed :" + dbType + ".")
+        return connector.connect()
         
