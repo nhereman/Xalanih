@@ -1,5 +1,6 @@
 from core.requesthandler import RequestHandler
 from core.sqlfileexecutor import SqlFileExecutor
+from core.xalanihexception import XalanihException
 from utils.parameters import Parameters
 import sqlparse
 
@@ -18,8 +19,8 @@ class DBCreator:
 
     def __createXalanihTable(self):
         if self.__doesXalanihTableExists():
-            raise Exception(" The table xalanih_updates already exists."
-                                " Stopping the creation of the database.")
+            raise XalanihException("The table xalanih_updates already exists.",
+                                XalanihException.TABLE_EXISTS)
         print("Creation of the table xalanih_updates ...")
         sqlRequest = self.request_handler.requestXalanihTableCreation()
         self.connection.query(sqlRequest)
@@ -30,8 +31,9 @@ class DBCreator:
             print("\tExecution of the creation script...")
             SqlFileExecutor.execute(self.connection, creation_file)                
         except IOError:
-            raise Exception("The file 'creation/creation.sql'"
-                                "can not be opened.")
+            raise XalanihException("The file 'creation/creation.sql'"
+                                "can not be opened.",
+                                XalanihException.NO_CREATION_SCRIPT)
 
     def __fillXalanihTable(self):
         cursor = self.connection.cursor()
@@ -43,7 +45,7 @@ class DBCreator:
                     print("\tApplying the update " + update + ".")
                     sqlRequest = self.request_handler.requestUpdateRecording()
                     cursor.execute(sqlRequest,[update])
-            self.connection.commit()
+            cursor.close()
         except IOError:
             print("The file creation/included_updates does not exist."
                     "Skipping the filling step.")
@@ -53,6 +55,7 @@ class DBCreator:
         cursor = self.connection.cursor()
         cursor.execute(request)
         results = cursor.fetchall()
+        cursor.close()
         return self.__doesResultsContainsXalanihTable(results)
 
     def __doesResultsContainsXalanihTable(self, results):

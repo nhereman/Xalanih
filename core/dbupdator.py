@@ -39,9 +39,10 @@ class DBUpdator:
     def __recordUpdate(self, update):
         cursor = self.connection.cursor()
         cursor.execute(self.request_handler.requestUpdateRecording(),[update])
-        self.connection.commit()
+        cursor.close()
 
     def __isUpdateAlreadyApplied(self, update):
         cursor = self.connection.cursor()
         cursor.execute(self.request_handler.requestUpdate(),[update])
+        cursor.close()
         return cursor.rowcount == 1

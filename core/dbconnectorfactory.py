@@ -1,5 +1,6 @@
 from utils.parameters import Parameters
 from core.mysql.mysqlconnector import MysqlConnector
+from core.xalanihexception import XalanihException
 
 class DBConnectorFactory:
     @staticmethod
@@ -10,7 +11,8 @@ class DBConnectorFactory:
         if(dbType == "mysql"):
             connector = MysqlConnector(params)
         if connector == None:
-            raise Exception("DBConnectorFactory: This type of database" 
-                                "is not managed :" + dbType + ".")
+            raise XalanihException("DBConnectorFactory: This type of database" 
+                                "is not managed :" + dbType + ".",
+                                XalanihException.DB_TYPE_NOT_SUPPORTED)
         return connector.connect()
         

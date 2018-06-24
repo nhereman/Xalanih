@@ -8,3 +8,4 @@ class SqlFileExecutor:
         for sql in sql_statements:
             if sql != "":
                 cursor.execute(sql)
+        cursor.close()

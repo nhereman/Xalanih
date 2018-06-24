@@ -1,6 +1,7 @@
 import MySQLdb as db
 from utils.parameters import Parameters
 from core.dbconnector import DBConnector
+from core.xalanihexception import XalanihException
 
 class MysqlConnector(DBConnector):
 
@@ -12,8 +13,8 @@ class MysqlConnector(DBConnector):
 
     def connect(self):
         if self.connection != None:
-            raise Exception("MysqlConnector.connect:" 
-                                "You are already connected")
+            raise XalanihException("You are already connected",
+                                         XalanihException.ALREADY_CONNECTED)
         self.connection = db.connect(**self.__getConnectArgument())
         return self.connection
 

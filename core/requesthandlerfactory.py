@@ -1,5 +1,6 @@
 from utils.parameters import Parameters
 from core.mysql.mysqlrequesthandler import MysqlRequestHandler
+from core.xalanihexception import XalanihException
 
 class RequestHandlerFactory:
     @staticmethod
@@ -8,5 +9,6 @@ class RequestHandlerFactory:
         dbType = params.getTypeOfDatabase()
         if(dbType == "mysql"):
             return MysqlRequestHandler()
-        raise Exception("This type of database is not managed :" 
-                            + dbType + ".")
+        raise XalanihException("This type of database is not managed :" 
+                                    + dbType + ".",
+                                    XalanihException.DB_TYPE_NOT_SUPPORTED)
