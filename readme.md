@@ -7,12 +7,12 @@
 
 #### Create the db
 ```
-python3 xalanih create
+python3 xalanih create database
 ```
 
 #### Update the db
 ```
-python3 xalanih update
+python3 xalanih update database
 ```
 # How to structure the directory containing the database scripts
 
