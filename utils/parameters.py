@@ -50,6 +50,16 @@ class Parameters:
                 help="Define the verbosity of the application."
                         " 0=No log. 1=Errors. 2=Warnings."
                         " 3=Informations(Default). 4=Full verbosity.")
+
+        # Last update
+        self.parser.add_argument("-to","--to", dest="last_update",
+                help="Set the name of the last update that must be executed.")
+
+        self.parser.add_argument("-nu", "--noupdate", action="store_true",
+                dest="no_update",
+                help="If this flag is set, the script will not execute any " 
+                        "update after the creation script. This flag has "
+                        "only an effect when Xalanih is called for creation.")
                 
         self.args = self.parser.parse_args()
 
@@ -85,3 +95,12 @@ class Parameters:
 
     def getVerbosity(self):
         return int(self.args.verbosity)
+
+    def getLastUpdate(self):
+        update = self.args.last_update
+        if update != None and update.endswith(".sql"):
+            return update[:-4]
+        return update
+
+    def getNoUpdate(self):
+        return bool(self.args.no_update)

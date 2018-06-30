@@ -16,8 +16,6 @@ action = params.getAction()
 # Get Logger
 logger = Logger(params.getLogfile(), params.getVerbosity())
 
-# Connecting database
-
 try:
     connection = DBConnectorFactory.getConnection(params, logger)
     request_handler = RequestHandlerFactory.getRequestHandler(params)
@@ -28,10 +26,14 @@ try:
         creator.createDatabase()
         logger.debug("Committing transaction.")
         connection.commit()
-    if (action == "update" or action == "create"):
+
+    no_update = params.getNoUpdate()
+    if no_update and action == "create":
+        logger.info("The flag 'no update' is set. Skipping the updates.")
+    if (action == "update" or (action == "create" and not no_update)):
         updator = DBUpdator(params.getDirectory(),connection,request_handler,
                                 logger)
-        updator.applyUpdates()
+        updator.applyUpdates(params.getLastUpdate())
         connection.commit()
         logger.debug("Committing transaction.")
 
