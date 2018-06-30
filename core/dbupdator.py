@@ -4,6 +4,7 @@ from core.requesthandler import RequestHandler
 from utils.parameters import Parameters
 from core.logger import Logger
 from core.xalanihexception import XalanihException
+from core.constants import Constants
 import sqlparse
 import os
 
@@ -36,13 +37,14 @@ class DBUpdator:
 
     def __applyUpdate(self, update):
         self.logger.info("Applying update " + update + ".")
-        filepath = self.directory + "/update/" + update + ".sql"
+        filepath = (self.directory + "/" + Constants.DIR_UPDATE + "/" + update 
+                        + ".sql")
         updateFile = open(filepath)
         SqlFileExecutor.execute(self.connection, updateFile, self.logger)
         self.__recordUpdate(update)
 
     def __getListOfUpdates(self):
-        directory = self.directory + "/update"
+        directory = self.directory + "/" + Constants.DIR_UPDATE
         self.logger.debug("Getting list of sql files in directory: {0}"
                             .format(directory))
         files = os.listdir(directory)
@@ -98,6 +100,6 @@ class DBUpdator:
 
     def __doesResultsContainsXalanihTable(self, results):
         for result in results:
-            if result[0] == "xalanih_updates":
+            if result[0] == Constants.XALANIH_TABLE:
                 return True
         return False

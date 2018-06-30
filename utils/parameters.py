@@ -1,6 +1,7 @@
 ##-*- coding: utf-8 -*-
 import argparse
 from core.connectioninfo import *
+from core.constants import Constants
 
 class Parameters:
 
@@ -8,7 +9,8 @@ class Parameters:
         self.parser = argparse.ArgumentParser(
             description="Xalanih: Database versioning helper.")
         # Action param
-        self.parser.add_argument("action", choices=["create", "update"],
+        self.parser.add_argument("action",
+                choices=[Constants.ACTION_CREATE, Constants.ACTION_UPDATE],
                 help="Give the action to execute. create: Create \
                 the database from zero. update: execute the needed \
                 update scripts on an existing database")
@@ -19,7 +21,8 @@ class Parameters:
 
         # DB Type
         self.parser.add_argument("-t", "--type",
-                choices=["mysql", "postgresql"], dest="type", default="mysql",
+                choices=[Constants.DB_MYSQL], dest="type"
+                ,default=Constants.DB_MYSQL,
                 help="Select the type of database. (i.e. mysql)")
 
         # Host

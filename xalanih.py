@@ -6,6 +6,7 @@ from core.dbconnectorfactory import DBConnectorFactory
 from core.requesthandlerfactory import RequestHandlerFactory
 from core.xalanihexception import XalanihException
 from core.logger import Logger
+from core.constants import Constants
 import sys
 import traceback
 
@@ -20,7 +21,7 @@ try:
     connection = DBConnectorFactory.getConnection(params, logger)
     request_handler = RequestHandlerFactory.getRequestHandler(params)
 
-    if (action == "create"):
+    if (action == Constants.ACTION_CREATE):
         creator = DBCreator(params.getDirectory(), connection, request_handler,
                                 logger)
         creator.createDatabase()
@@ -28,9 +29,11 @@ try:
         connection.commit()
 
     no_update = params.getNoUpdate()
-    if no_update and action == "create":
+    if no_update and action == Constants.ACTION_CREATE:
         logger.info("The flag 'no update' is set. Skipping the updates.")
-    if (action == "update" or (action == "create" and not no_update)):
+        
+    if (action == Constants.ACTION_UPDATE or 
+            (action == Constants.ACTION_CREATE and not no_update)):
         updator = DBUpdator(params.getDirectory(),connection,request_handler,
                                 logger)
         updator.applyUpdates(params.getLastUpdate())
