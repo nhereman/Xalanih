@@ -2,6 +2,7 @@ from core.requesthandler import RequestHandler
 from core.sqlfileexecutor import SqlFileExecutor
 from core.xalanihexception import XalanihException
 from core.logger import Logger
+from core.constants import Constants
 from utils.parameters import Parameters
 import sqlparse
 
@@ -24,16 +25,18 @@ class DBCreator:
 
     def __createXalanihTable(self):
         if self.__doesXalanihTableExists():
-            raise XalanihException("The table xalanih_updates already exists.",
+            raise XalanihException("The table {0} already exists."
+                                    .format(Constants.XALANIH_TABLE),
                                 XalanihException.TABLE_EXISTS)
-        self.logger.info("Creation of the table xalanih_updates.")
+        self.logger.info("Creation of the table {0}."
+                            .format(Constants.XALANIH_TABLE))
         sqlRequest = self.request_handler.requestXalanihTableCreation()
         self.logger.debug("[REQUEST]{0}".format(sqlRequest))
         self.connection.query(sqlRequest)
 
     def __executeCreationScript(self):
         try:
-            filename = self.directory +  "/creation/creation.sql"
+            filename = self.directory +  Constants.PATH_CREATION
             self.logger.info("Execution of the creation script.")
             creation_file = open(filename)
             SqlFileExecutor.execute(self.connection, creation_file,
@@ -49,7 +52,7 @@ class DBCreator:
                             " in creation.")
         cursor = self.connection.cursor()
         try:
-            filename = self.directory + "creation/included_updates"
+            filename = self.directory + Constants.PATH_INC_UPDATES
             self.logger.debug("Openning file with included updates: {0}"
                             .format(filename))
             inc_updates_file = open(filename)
@@ -79,6 +82,6 @@ class DBCreator:
 
     def __doesResultsContainsXalanihTable(self, results):
         for result in results:
-            if result[0] == "xalanih_updates":
+            if result[0] == Constants.XALANIH_TABLE:
                 return True
         return False
