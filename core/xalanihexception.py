@@ -4,6 +4,7 @@ class XalanihException(Exception):
     NO_CREATION_SCRIPT = 2
     DB_TYPE_NOT_SUPPORTED = 3
     ALREADY_CONNECTED = 4
+    UNEXPECTED_EXCEPTION = 255
 
     def __init__(self, message, error_code):
         super().__init__(message)

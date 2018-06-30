@@ -13,9 +13,9 @@ class MysqlRequestHandler(RequestHandler):
                 "PRIMARY KEY (`id`));")
 
     def requestUpdateRecording(self):
-        return "INSERT INTO xalanih_updates \
-                    (`update_name`, `update_apply_time`) \
-                    VALUES (%s, NOW())"
+        return ("INSERT INTO xalanih_updates "
+                "(`update_name`, `update_apply_time`) "
+                "VALUES (%s, NOW())")
     
     def requestUpdate(self):
         return "SELECT * FROM xalanih_updates WHERE update_name = %s"

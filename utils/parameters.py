@@ -8,51 +8,48 @@ class Parameters:
         self.parser = argparse.ArgumentParser(
             description="Xalanih: Database versioning helper.")
         # Action param
-        self.parser.add_argument("action",
-                choices=["create", "update"],
+        self.parser.add_argument("action", choices=["create", "update"],
                 help="Give the action to execute. create: Create \
                 the database from zero. update: execute the needed \
                 update scripts on an existing database")
 
         # DB files directory
-        self.parser.add_argument("-d","--directory",
-                dest= "directory",
+        self.parser.add_argument("-d","--directory", dest= "directory",
                 default=".")
 
         # DB Type
         self.parser.add_argument("-t", "--type",
-                choices=["mysql", "postgresql"],
-                dest="type",
-                default="mysql",
+                choices=["mysql", "postgresql"], dest="type", default="mysql",
                 help="Select the type of database. (i.e. mysql)")
 
         # Host
-        self.parser.add_argument("-H", "--host",
-                dest="host",
-                default="localhost",
-                help="The hostname of the database")
+        self.parser.add_argument("-H", "--host", dest="host",
+                default="localhost", help="The hostname of the database")
 
         # Port
-        self.parser.add_argument("-p", "--port",
-                dest="port",
+        self.parser.add_argument("-p", "--port", dest="port",
                 help="The port of the database")
 
         # DB
-        self.parser.add_argument("database",
-                help="The database")
+        self.parser.add_argument("database", help="The database")
 
         # User
-        self.parser.add_argument("-u", "--user",
-                dest="user",
-                default="root")
+        self.parser.add_argument("-u", "--user", dest="user", default="root")
         
         # Password
-        self.parser.add_argument("-pwd", "-password",
-                dest="password")
+        self.parser.add_argument("-pwd", "-password", dest="password")
 
         # Socket
-        self.parser.add_argument("-s", "--socket",
-                dest="socket")
+        self.parser.add_argument("-s", "--socket", dest="socket")
+
+        # Logging
+        self.parser.add_argument("-l", "--logfile", dest="logfile")
+
+        self.parser.add_argument("-v", "--verbosity", dest="verbosity",
+                choices=['0', '1', '2', '3', '4'], default='3',
+                help="Define the verbosity of the application."
+                        " 0=No log. 1=Errors. 2=Warnings."
+                        " 3=Informations(Default). 4=Full verbosity.")
                 
         self.args = self.parser.parse_args()
 
@@ -83,3 +80,8 @@ class Parameters:
     def getSocket(self):
         return self.args.socket
         
+    def getLogfile(self):
+        return self.args.logfile
+
+    def getVerbosity(self):
+        return int(self.args.verbosity)

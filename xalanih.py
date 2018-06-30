@@ -5,40 +5,55 @@ from core.dbupdator import DBUpdator
 from core.dbconnectorfactory import DBConnectorFactory
 from core.requesthandlerfactory import RequestHandlerFactory
 from core.xalanihexception import XalanihException
+from core.logger import Logger
 import sys
+import traceback
 
 # Get parameters
 params = parameters.Parameters()
 action = params.getAction()
 
-print("Directory: " + params.getDirectory())
-print("Database type: " + params.getTypeOfDatabase())
+# Get Logger
+logger = Logger(params.getLogfile(), params.getVerbosity())
 
 # Connecting database
 
 try:
-    print("Connection to the database ...")
-    connection = DBConnectorFactory.getConnection(params)
+    connection = DBConnectorFactory.getConnection(params, logger)
     request_handler = RequestHandlerFactory.getRequestHandler(params)
-    print("Connected.")
+
     if (action == "create"):
-        print("Creating db ...")
-        creator = DBCreator(params.getDirectory(), connection, request_handler)
+        creator = DBCreator(params.getDirectory(), connection, request_handler,
+                                logger)
         creator.createDatabase()
+        logger.debug("Committing transaction.")
         connection.commit()
     if (action == "update" or action == "create"):
-        print("Updating db ...")
-        updator = DBUpdator(params.getDirectory(),connection,request_handler)
+        updator = DBUpdator(params.getDirectory(),connection,request_handler,
+                                logger)
         updator.applyUpdates()
         connection.commit()
-    connection.close()
+        logger.debug("Committing transaction.")
+
+    logger.info("Done.")
+
 except XalanihException as e:
-    print("ERROR: {0}".format(e.args[0]))
-    print("ERROR: Stopping the creation of the database.")
-    connection.rollback()
+    logger.error(e.args[0])
+    logger.error("Stopping the execution of Xalanih.")
+    if 'connection' in vars():
+        logger.debug("Rollbacking transaction.")
+        connection.rollback()
     sys.exit(e.getErrorCode())
 except Exception as e:
-    print("ERROR: Unexpected exception")
-    print("ERROR: Stopping the creation of the database.")
-    connection.rollback()
-    raise e
+    logger.error("Unexpected exception:\n {0}".format(traceback.format_exc()))
+    logger.error("Stopping the execution of Xalanih.")
+    if 'connection' in vars():
+        logger.debug("Rollbacking transaction.")
+        connection.rollback()
+    sys.exit(XalanihException.UNEXPECTED_EXCEPTION)
+finally:
+    if 'connection' in vars():
+        logger.debug("Closing connection to database.")
+        connection.close()
+    logger.shutdown()
+    
