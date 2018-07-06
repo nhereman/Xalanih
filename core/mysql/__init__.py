@@ -1,1 +1,1 @@
-__all__ = ["mysqlconnector"]
+__all__ = ["mysqlconnector", "mysqlrequesthandler"]

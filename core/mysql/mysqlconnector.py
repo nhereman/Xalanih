@@ -7,6 +7,12 @@ from core.xalanihexception import XalanihException
 class MysqlConnector(DBConnector):
 
     def __init__(self, params, logger):
+        """
+        Constructor.
+        arguments:
+        - params: The parameters of the script.
+        - logger: The logger.
+        """
         assert isinstance(params, Parameters)
         assert isinstance(logger, Logger)
         self.connectionInfo = params.getConnectionInfo()
@@ -15,6 +21,10 @@ class MysqlConnector(DBConnector):
         self.connection = None
 
     def connect(self):
+        """
+        Establish a connection with the database.
+        returns: The connection object.
+        """
         if self.connection != None:
             raise XalanihException("You are already connected",
                                          XalanihException.ALREADY_CONNECTED)
@@ -23,10 +33,17 @@ class MysqlConnector(DBConnector):
         return self.connection
 
     def getConnection(self):
+        """
+        returns: The connection object if connected. None otherwise.
+        """
         return self.connection
         
 
     def __getConnectArgument(self):
+        """
+        Return the list of arguments used to connect to the mysql database.
+        returns: The list of arguments used to connect to the mysql database.
+        """
         arguments = dict()
         host = self.connectionInfo.getHost()
         port = self.connectionInfo.getPort()

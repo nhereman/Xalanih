@@ -7,6 +7,13 @@ from core.constants import Constants
 class RequestHandlerFactory:
     @staticmethod
     def getRequestHandler(params):
+        """
+        Get the RequestHandler object linked to the type of database.
+        arguments:
+        - params: The Parameters of the script.
+        returns: The RequestHandler object linked to the type of database.
+        throws: XalanihException if the kind of db is not supported.
+        """
         assert isinstance(params,Parameters)
         dbType = params.getTypeOfDatabase()
         if(dbType == Constants.DB_MYSQL):

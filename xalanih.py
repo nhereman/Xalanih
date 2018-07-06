@@ -21,6 +21,7 @@ try:
     connection = DBConnectorFactory.getConnection(params, logger)
     request_handler = RequestHandlerFactory.getRequestHandler(params)
 
+    # Creating database if required
     if (action == Constants.ACTION_CREATE):
         creator = DBCreator(params.getDirectory(), connection, request_handler,
                                 logger)
@@ -28,6 +29,7 @@ try:
         logger.debug("Committing transaction.")
         connection.commit()
 
+    # Updating database if required
     no_update = params.getNoUpdate()
     if no_update and action == Constants.ACTION_CREATE:
         logger.info("The flag 'no update' is set. Skipping the updates.")

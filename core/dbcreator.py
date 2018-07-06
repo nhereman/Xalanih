@@ -9,6 +9,14 @@ import sqlparse
 class DBCreator:
 
     def __init__(self, directory, connection, request_handler, logger):
+        """
+        Constructor.
+        arguments:
+        - directory: The working directory.
+        - connection: The connection object to the database.
+        - request_handler: The RequestHandler associated to the type of db.
+        - logger: The logger.
+        """
         assert isinstance(request_handler, RequestHandler)
         assert isinstance(logger, Logger)
         self.directory = directory
@@ -17,6 +25,9 @@ class DBCreator:
         self.logger = logger
 
     def createDatabase(self):
+        """
+        Execute the creation to the database.
+        """
         self.logger.info("Creation of the database.")
         self.__createXalanihTable()
         self.__executeCreationScript()
@@ -24,6 +35,10 @@ class DBCreator:
         self.logger.info("Database created.")
 
     def __createXalanihTable(self):
+        """
+        Create the xalanih table.
+        throws: XalanihException if the table already exists.
+        """
         if self.__doesXalanihTableExists():
             raise XalanihException("The table {0} already exists."
                                     .format(Constants.XALANIH_TABLE),
@@ -35,6 +50,10 @@ class DBCreator:
         self.connection.query(sqlRequest)
 
     def __executeCreationScript(self):
+        """
+        Execute the script creation.sql.
+        throws: XalanihException if the file can't be oppened.
+        """
         try:
             filename = self.directory +  Constants.PATH_CREATION
             self.logger.info("Execution of the creation script.")
@@ -48,6 +67,10 @@ class DBCreator:
                                     XalanihException.NO_CREATION_SCRIPT)
 
     def __fillXalanihTable(self):
+        """
+        Fill the xalanih table with the list of update included 
+        in the creation.
+        """
         self.logger.info("Filling Xalanih table with updates included"
                             " in creation.")
         cursor = self.connection.cursor()
@@ -71,6 +94,9 @@ class DBCreator:
             self.logger.warning("Skipping the filling of xalanih table.")
 
     def __doesXalanihTableExists(self):
+        """
+        Check if the xalanih table exists in the database.
+        """
         self.logger.debug("Checking if the xalanih table already exists.")
         request = self.request_handler.requestXalanihTable()
         self.logger.debug("[REQUEST] {0}".format(request))
@@ -81,6 +107,12 @@ class DBCreator:
         return self.__doesResultsContainsXalanihTable(results)
 
     def __doesResultsContainsXalanihTable(self, results):
+        """
+        Check if the given parameter contains the xalanih table.
+        arguments:
+        - results: The result to the sql request looking for xalanih table.
+        returns: True if present, False otherwise.
+        """
         for result in results:
             if result[0] == Constants.XALANIH_TABLE:
                 return True
