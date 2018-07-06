@@ -11,6 +11,14 @@ import os
 class DBUpdator:
 
     def __init__(self, directory, connection, request_handler, logger):
+        """
+        Constructor.
+        arguments:
+        - directory: The working directory.
+        - connection: The connection object to the database.
+        - request_handler: The request handler associated to the type of db.
+        - logger: The logger.
+        """
         assert isinstance(request_handler,RequestHandler)
         assert isinstance(logger, Logger)
         self.directory = directory
@@ -19,6 +27,14 @@ class DBUpdator:
         self.logger = logger
 
     def applyUpdates(self, last_update):
+        """
+        Apply the updates to the database.
+        arguments:
+        - last_update: the name of the last update that must be applied.
+        throws:
+        - XalanihException if the xalanih table is not present in db.
+        - XalanihException if the last_update does not exists.
+        """
         self.logger.info("Updating database.")
         if not self.__doesXalanihTableExists():
             raise XalanihException("The xalanih table does not exist.",
@@ -31,11 +47,22 @@ class DBUpdator:
         self.logger.info("Database updated.")
 
     def __getListOfUpdatesToApply(self, last_update):
+        """
+        Get the list of updates that must be applied.
+        arguments:
+        - last_update: the name of the last update that must be applied.
+        returns: The list of updates that must be applied.
+        """
         updates = self.__getListOfUpdates()
         updates = self.__removeUpdatesAfter(updates, last_update)
         return self.__removeUpdatesAlreadyApplied(updates)
 
     def __applyUpdate(self, update):
+        """
+        Apply the update given in parameter.
+        arguments:
+        - updates: The name of the update that will be applied.
+        """
         self.logger.info("Applying update " + update + ".")
         filepath = (self.directory + "/" + Constants.DIR_UPDATE + "/" + update 
                         + ".sql")
@@ -44,6 +71,10 @@ class DBUpdator:
         self.__recordUpdate(update)
 
     def __getListOfUpdates(self):
+        """
+        Give the list of updates present in the update directory.
+        returns: The list of updates present in the update directory.
+        """
         directory = self.directory + "/" + Constants.DIR_UPDATE
         self.logger.debug("Getting list of sql files in directory: {0}"
                             .format(directory))
@@ -51,6 +82,15 @@ class DBUpdator:
         return [f[:-4] for f in files if f.endswith(".sql")]
 
     def __removeUpdatesAfter(self, updates, last_update):
+        """
+        Remove the updates after the last update in the list.
+        arguments:
+        - updates: The list of updates to filter.
+        - last_update: The last update of the filtered list.
+        returns: The list filtered with all the updates after 
+                last_update removed.
+        throws: XalanihException if the last_update does not exists.
+        """
         if last_update == None:
             return updates
         self.logger.debug("Filtering updates after {0}".format(last_update))
@@ -63,6 +103,12 @@ class DBUpdator:
                                     XalanihException.UPDATE_NOT_FOUD)
 
     def __removeUpdatesAlreadyApplied(self, updates):
+        """
+        Remove all the updates already applied from the list.
+        arguments:
+        - updates: The list of updates to filter.
+        returns: The list of update without the one already applied.
+        """
         return [update for update in updates 
                     if not self.__isUpdateAlreadyApplied(update)]
 
@@ -76,6 +122,12 @@ class DBUpdator:
         cursor.close()
 
     def __isUpdateAlreadyApplied(self, update):
+        """
+        Check if an update has already been applied.
+        arguments:
+        - update: The update to check.
+        return: True if the update has already been applied. False otherwise.
+        """
         self.logger.debug("Looking if the update {0} has already been applied."
                             .format(update))
         cursor = self.connection.cursor()
@@ -89,6 +141,10 @@ class DBUpdator:
         return cursor.rowcount == 1
 
     def __doesXalanihTableExists(self):
+        """
+        Check if the Xalanih table already exists.
+        return: True if the table already exists. False otherwise.
+        """
         self.logger.debug("Checking if the xalanih table already exists.")
         request = self.request_handler.requestXalanihTable()
         self.logger.debug("[REQUEST] {0}".format(request))
@@ -99,6 +155,12 @@ class DBUpdator:
         return self.__doesResultsContainsXalanihTable(results)
 
     def __doesResultsContainsXalanihTable(self, results):
+       """
+        Check if the given parameter contains the xalanih table.
+        arguments:
+        - results: The result to the sql request looking for xalanih table.
+        returns: True if present, False otherwise.
+        """
         for result in results:
             if result[0] == Constants.XALANIH_TABLE:
                 return True

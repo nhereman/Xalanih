@@ -5,6 +5,12 @@ import sqlparse
 class SqlFileExecutor:
     @staticmethod
     def execute(connection, sqlFile, logger):
+        """
+        Execute the sql queries from a file.
+        arguments:
+        - sqlFile: The sql file to execute.
+        - logger: The logger.
+        """
         assert isinstance(logger, Logger)
         logger.debug("Executing SQL file: {0}".format(sqlFile.name))
         sql_statements = sqlparse.split(sqlFile.read())

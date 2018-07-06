@@ -7,6 +7,14 @@ from core.constants import Constants
 class DBConnectorFactory:
     @staticmethod
     def getConnection(params, logger):
+        """
+        Get the connection object associated to the database.
+        Argument:
+        - params: Parameters object. Required for the connectors
+                  and the database type.
+        - logger: The logger.
+        returns: A connection object
+        """
         assert isinstance(params,Parameters)
         assert isinstance(logger, Logger)
         connector = None
