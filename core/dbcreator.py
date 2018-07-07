@@ -88,6 +88,7 @@ class DBCreator:
                     self.logger.debug("[REQUEST PARAMETERS] {0}".format([update]))
                     cursor.execute(sqlRequest,[update])
             cursor.close()
+            inc_updates_file.close()
         except IOError:
             self.logger.warning("Impossible to open the file containing" 
                                     " the included updates.")
@@ -111,6 +112,7 @@ class DBCreator:
         Check if the given parameter contains the xalanih table.
         arguments:
         - results: The result to the sql request looking for xalanih table.
+                    format: [(table1,), (table2,), ...]
         returns: True if present, False otherwise.
         """
         for result in results:

@@ -155,7 +155,7 @@ class DBUpdator:
         return self.__doesResultsContainsXalanihTable(results)
 
     def __doesResultsContainsXalanihTable(self, results):
-       """
+        """
         Check if the given parameter contains the xalanih table.
         arguments:
         - results: The result to the sql request looking for xalanih table.
