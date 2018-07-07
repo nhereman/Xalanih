@@ -75,7 +75,7 @@ class DBCreator:
                             " in creation.")
         cursor = self.connection.cursor()
         try:
-            filename = self.directory + Constants.PATH_INC_UPDATES
+            filename = self.directory + "/" +Constants.PATH_INC_UPDATES
             self.logger.debug("Openning file with included updates: {0}"
                             .format(filename))
             inc_updates_file = open(filename)
