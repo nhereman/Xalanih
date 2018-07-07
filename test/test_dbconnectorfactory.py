@@ -20,4 +20,5 @@ class TestDBConnectorFactory(unittest.TestCase):
         with self.assertRaises(XalanihException) as cm:
             DBConnectorFactory.getConnection(self.params, self.logger)
         self.assertEqual(cm.exception.getErrorCode(), 
-                            XalanihException.DB_TYPE_NOT_SUPPORTED)
+                            XalanihException.DB_TYPE_NOT_SUPPORTED,
+                            "Wrong error code.")
