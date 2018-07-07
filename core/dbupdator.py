@@ -68,6 +68,7 @@ class DBUpdator:
                         + ".sql")
         updateFile = open(filepath)
         SqlFileExecutor.execute(self.connection, updateFile, self.logger)
+        updateFile.close()
         self.__recordUpdate(update)
 
     def __getListOfUpdates(self):
@@ -79,7 +80,9 @@ class DBUpdator:
         self.logger.debug("Getting list of sql files in directory: {0}"
                             .format(directory))
         files = os.listdir(directory)
-        return [f[:-4] for f in files if f.endswith(".sql")]
+        result = [f[:-4] for f in files if f.endswith(".sql")]
+        result.sort()
+        return result
 
     def __removeUpdatesAfter(self, updates, last_update):
         """
@@ -100,7 +103,7 @@ class DBUpdator:
         except ValueError:
             raise XalanihException("The update {0} does not exist."
                                         .format(last_update),
-                                    XalanihException.UPDATE_NOT_FOUD)
+                                    XalanihException.UPDATE_NOT_FOUND)
 
     def __removeUpdatesAlreadyApplied(self, updates):
         """
@@ -155,7 +158,7 @@ class DBUpdator:
         return self.__doesResultsContainsXalanihTable(results)
 
     def __doesResultsContainsXalanihTable(self, results):
-       """
+        """
         Check if the given parameter contains the xalanih table.
         arguments:
         - results: The result to the sql request looking for xalanih table.
