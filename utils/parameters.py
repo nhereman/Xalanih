@@ -31,6 +31,7 @@ class Parameters:
 
         # Port
         self.parser.add_argument("-p", "--port", dest="port",
+                default="3306",
                 help="The port of the database")
 
         # DB

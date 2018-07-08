@@ -7,35 +7,30 @@ class ConnectionInfo:
 
     def __init__(self,host=None,port=None,database=None,user=None,
                     password=None):
-        if host != None:
-            self.setHost(host)
-        if port != None:
-            self.setPort(port)
-        if database != None:
-            self.setDatabase(database)
-        if user != None:
-            self.setUser(user)
-        if password != None:
-            self.setPassword(password)
+        self.setHost(host)
+        self.setPort(port)
+        self.setDatabase(database)
+        self.setUser(user)
+        self.setPassword(password)
 
     def setHost(self,host):
-        assert (isinstance(host,str))
+        assert ((isinstance(host,str)) or host == None)
         self.host = host
     
     def setPort(self,port):
-        assert isinstance(port,int)
+        assert (isinstance(port,int) or port == None)
         self.port = port
 
     def setDatabase(self,database):
-        assert isinstance(database,str)
+        assert (isinstance(database,str) or database == None)
         self.database = database
 
     def setUser(self, user):
-        assert isinstance(user,str)
+        assert (isinstance(user,str) or user == None)
         self.user = user
 
     def setPassword(self, password):
-        assert isinstance(password, str)
+        assert (isinstance(password, str) or password == None)
         self.password = password
 
     def getHost(self):

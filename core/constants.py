@@ -10,3 +10,4 @@ class Constants:
     PATH_CREATION = "/creation/creation.sql"
     PATH_INC_UPDATES = "creation/included_updates"
     DIR_UPDATE = "update"
+    INITIAL_CREATION = "initial_install"
