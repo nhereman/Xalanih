@@ -1,0 +1,52 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: python:3.7-alpine
+    working_directory: ~/project
+    steps:
+      - checkout
+      - run:
+          name: "Installing requirement for mysqlclient"
+          command: apk update && apk add --no-cache mariadb-dev && apk add --no-cache gcc && apk add --no-cache libc-dev
+      - run: 
+          name: "Installing requirements"
+          command: pip3 install -r requirements.txt
+      - run: 
+          name: "Test"
+          command: python3 -m unittest
+  publish:
+    docker:
+      - image: python:3.7-alpine
+    working_directory: ~/project
+    steps:
+      - checkout
+      - run:
+          name: "Installing requirement to deploy"
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              pip3 install --user --upgrade setuptools wheel twine
+            fi
+      - run:
+          name: "Packaging"
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              python3 setup.py sdist bdist_wheel
+            fi
+      - run:
+          name: "Publishing"
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              python3 -m twine upload -u ${PIP_USER} -p ${PIP_PWD} dist/*
+            fi
+      
+workflows:
+  version: 2
+  test_and_publish:
+    jobs:
+      - test
+      - publish:
+          requires:
+             - test
+          context: pip-cred
+        
