@@ -37,7 +37,7 @@ jobs:
           name: "Publishing"
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              python3 -m twine upload -u ${PIP_USER} -p ${PIP_PWD} dist/*
+              python3 -m twine upload -u ${pypi_user} -p ${pypi_pwd} dist/*
             fi
       
 workflows:
