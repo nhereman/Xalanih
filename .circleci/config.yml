@@ -6,6 +6,8 @@ jobs:
     working_directory: ~/project
     steps:
       - checkout
+      - run: "Installing requirement for mysqlclient"
+          name: apk update && apk add --no-cache mariadb-dev && apk add --no-cache gcc && apk add --no-cache libc-dev
       - run: 
           name: "Installing requirements"
           command: pip3 install -r requirements.txt
