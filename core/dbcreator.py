@@ -74,10 +74,18 @@ class DBCreator:
         self.logger.info("Filling Xalanih table with updates included"
                             " in creation.")
         cursor = self.connection.cursor()
+
         try:
             filename = self.directory + "/" +Constants.PATH_INC_UPDATES
             self.logger.debug("Openning file with included updates: {0}"
                             .format(filename))
+            # Initial creation
+            sqlRequest = self.request_handler.requestUpdateRecording()
+            self.logger.debug("[REQUEST] {0}".format(sqlRequest))
+            self.logger.debug("[REQUEST PARAMETERS] {0}"
+                                .format([Constants.INITIAL_CREATION]))
+            cursor.execute(sqlRequest, [Constants.INITIAL_CREATION])
+            # Updates                
             inc_updates_file = open(filename)
             for line in inc_updates_file:
                 if line != "":
