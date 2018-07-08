@@ -13,9 +13,6 @@ jobs:
           name: "Installing requirements"
           command: pip3 install -r requirements.txt
       - run: 
-          name: "Installing unittest"
-          command: pip3 install unittest
-      - run: 
           name: "Test"
           command: python3 -m unittest
   publish:
