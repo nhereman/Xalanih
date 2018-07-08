@@ -1,9 +1,9 @@
 import unittest
-from core.requesthandlerfactory import RequestHandlerFactory
-from core.xalanihexception import XalanihException
-from core.mysql.mysqlrequesthandler import MysqlRequestHandler
-from test.mocks.parameters import Parameters
-from test.mocks.logger import Logger
+from xalanih.core.requesthandlerfactory import RequestHandlerFactory
+from xalanih.core.xalanihexception import XalanihException
+from xalanih.core.mysql.mysqlrequesthandler import MysqlRequestHandler
+from xalanih.test.mocks.parameters import Parameters
+from xalanih.test.mocks.logger import Logger
 
 class TestRequestHandlerFactory(unittest.TestCase):
 

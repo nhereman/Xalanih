@@ -1,21 +1,31 @@
+# What is Xalanih ?
+
+Xalanih is a python script made to help you version your SQL database. You can use it to manage the creation or update the database of your project.
+
 # Technical Requirements
 - Python 3.6
 - mysqlclient
 - sqlparse
+
+# How to install Xalanih
+
+```
+pip3 install xalanih
+```
 
 # How to use Xalanih
 
 ## Create the db
 
 ```Bash
-python3 xalanih create <database>
+python3 -m xalanih create <database>
 ```
 where \<database\> must be replaced by the name of the database.
 
 ## Update the db
 
 ```Bash
-python3 xalanih update <database>
+python3 -m xalanih update <database>
 ```
 where \<database\> must be replaced by the name of the database.
 

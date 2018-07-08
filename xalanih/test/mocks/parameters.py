@@ -1,4 +1,4 @@
-from utils.parameters import Parameters as RealParams
+from xalanih.utils.parameters import Parameters as RealParams
 
 class Parameters(RealParams):
 

@@ -1,8 +1,8 @@
 import MySQLdb as db
-from utils.parameters import Parameters
-from core.dbconnector import DBConnector
-from core.logger import Logger
-from core.xalanihexception import XalanihException
+from xalanih.utils.parameters import Parameters
+from xalanih.core.dbconnector import DBConnector
+from xalanih.core.logger import Logger
+from xalanih.core.xalanihexception import XalanihException
 
 class MysqlConnector(DBConnector):
 

@@ -1,9 +1,9 @@
-from core.requesthandler import RequestHandler
-from core.sqlfileexecutor import SqlFileExecutor
-from core.xalanihexception import XalanihException
-from core.logger import Logger
-from core.constants import Constants
-from utils.parameters import Parameters
+from xalanih.core.requesthandler import RequestHandler
+from xalanih.core.sqlfileexecutor import SqlFileExecutor
+from xalanih.core.xalanihexception import XalanihException
+from xalanih.core.logger import Logger
+from xalanih.core.constants import Constants
+from xalanih.utils.parameters import Parameters
 import sqlparse
 
 class DBCreator:

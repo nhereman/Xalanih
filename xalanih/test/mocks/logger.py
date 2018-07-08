@@ -1,4 +1,4 @@
-from core.logger import Logger as RealLogger
+from xalanih.core.logger import Logger as RealLogger
 
 class Logger(RealLogger):
 

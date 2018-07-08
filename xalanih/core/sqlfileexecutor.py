@@ -1,4 +1,4 @@
-from core.logger import Logger
+from xalanih.core.logger import Logger
 import sqlparse
 
 

@@ -1,7 +1,7 @@
-from utils.parameters import Parameters
-from core.mysql.mysqlrequesthandler import MysqlRequestHandler
-from core.xalanihexception import XalanihException
-from core.constants import Constants
+from xalanih.utils.parameters import Parameters
+from xalanih.core.mysql.mysqlrequesthandler import MysqlRequestHandler
+from xalanih.core.xalanihexception import XalanihException
+from xalanih.core.constants import Constants
 
 
 class RequestHandlerFactory:

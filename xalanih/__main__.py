@@ -1,12 +1,12 @@
 ##-*- coding: utf-8 -*-
-from utils import parameters
-from core.dbcreator import DBCreator
-from core.dbupdator import DBUpdator
-from core.dbconnectorfactory import DBConnectorFactory
-from core.requesthandlerfactory import RequestHandlerFactory
-from core.xalanihexception import XalanihException
-from core.logger import Logger
-from core.constants import Constants
+from xalanih.utils import parameters
+from xalanih.core.dbcreator import DBCreator
+from xalanih.core.dbupdator import DBUpdator
+from xalanih.core.dbconnectorfactory import DBConnectorFactory
+from xalanih.core.requesthandlerfactory import RequestHandlerFactory
+from xalanih.core.xalanihexception import XalanihException
+from xalanih.core.logger import Logger
+from xalanih.core.constants import Constants
 import sys
 import traceback
 
