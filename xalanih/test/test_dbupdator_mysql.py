@@ -1,11 +1,11 @@
 import unittest
 import os
-from core.dbupdator import DBUpdator
-from core.constants import Constants
-from core.xalanihexception import XalanihException
-from core.mysql.mysqlrequesthandler import MysqlRequestHandler
-from test.mocks.connection import Connection
-from test.mocks.logger import Logger
+from xalanih.core.dbupdator import DBUpdator
+from xalanih.core.constants import Constants
+from xalanih.core.xalanihexception import XalanihException
+from xalanih.core.mysql.mysqlrequesthandler import MysqlRequestHandler
+from xalanih.test.mocks.connection import Connection
+from xalanih.test.mocks.logger import Logger
 
 class TestDBUpdatorMySQL(unittest.TestCase):
 

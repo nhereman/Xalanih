@@ -1,5 +1,5 @@
-from core.requesthandler import RequestHandler
-from core.constants import Constants
+from xalanih.core.requesthandler import RequestHandler
+from xalanih.core.constants import Constants
 
 
 class MysqlRequestHandler(RequestHandler):

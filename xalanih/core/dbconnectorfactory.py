@@ -1,8 +1,8 @@
-from utils.parameters import Parameters
-from core.logger import Logger
-from core.mysql.mysqlconnector import MysqlConnector
-from core.xalanihexception import XalanihException
-from core.constants import Constants
+from xalanih.utils.parameters import Parameters
+from xalanih.core.logger import Logger
+from xalanih.core.mysql.mysqlconnector import MysqlConnector
+from xalanih.core.xalanihexception import XalanihException
+from xalanih.core.constants import Constants
 
 class DBConnectorFactory:
     @staticmethod

@@ -1,8 +1,8 @@
 import unittest
 import os
-from core.sqlfileexecutor import SqlFileExecutor
-from test.mocks.logger import Logger
-from test.mocks.connection import Connection
+from xalanih.core.sqlfileexecutor import SqlFileExecutor
+from xalanih.test.mocks.logger import Logger
+from xalanih.test.mocks.connection import Connection
 
 class TestSqlFileExecutor(unittest.TestCase):
 

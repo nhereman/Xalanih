@@ -1,10 +1,10 @@
-from core.mysql.mysqlconnector import MysqlConnector
-from core.sqlfileexecutor import SqlFileExecutor
-from core.requesthandler import RequestHandler
-from utils.parameters import Parameters
-from core.logger import Logger
-from core.xalanihexception import XalanihException
-from core.constants import Constants
+from xalanih.core.mysql.mysqlconnector import MysqlConnector
+from xalanih.core.sqlfileexecutor import SqlFileExecutor
+from xalanih.core.requesthandler import RequestHandler
+from xalanih.utils.parameters import Parameters
+from xalanih.core.logger import Logger
+from xalanih.core.xalanihexception import XalanihException
+from xalanih.core.constants import Constants
 import sqlparse
 import os
 

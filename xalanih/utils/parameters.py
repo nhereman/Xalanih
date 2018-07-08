@@ -1,7 +1,7 @@
 ##-*- coding: utf-8 -*-
 import argparse
-from core.connectioninfo import *
-from core.constants import Constants
+from xalanih.core.connectioninfo import *
+from xalanih.core.constants import Constants
 
 class Parameters:
 

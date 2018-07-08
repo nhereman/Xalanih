@@ -1,8 +1,8 @@
 import unittest
-from core.dbconnectorfactory import DBConnectorFactory
-from core.xalanihexception import XalanihException
-from test.mocks.parameters import Parameters
-from test.mocks.logger import Logger
+from xalanih.core.dbconnectorfactory import DBConnectorFactory
+from xalanih.core.xalanihexception import XalanihException
+from xalanih.test.mocks.parameters import Parameters
+from xalanih.test.mocks.logger import Logger
 
 
 class TestDBConnectorFactory(unittest.TestCase):
