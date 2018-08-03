@@ -15,6 +15,23 @@ jobs:
       - run: 
           name: "Test"
           command: python3 -m unittest
+  sonar:
+    docker:
+      - image: newtmitch/sonar-scanner
+    working_directory: /root/src
+    steps:
+      - checkout
+      - run:
+          name: "Sonarqube scan"
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              sonar-scanner \
+                -Dsonar.projectKey=xalanih_qube \
+                -Dsonar.organization=nhereman-github \
+                -Dsonar.sources=. \
+                -Dsonar.host.url=https://sonarcloud.io \
+                -Dsonar.login=${sonar_login}
+            fi
   publish:
     docker:
       - image: python:3.7-alpine
@@ -45,8 +62,12 @@ workflows:
   test_and_publish:
     jobs:
       - test
-      - publish:
+      - sonar:
           requires:
              - test
+          context: pip-cred
+      - publish:
+          requires:
+             - sonar
           context: pip-cred
         
