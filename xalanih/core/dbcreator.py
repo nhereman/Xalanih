@@ -24,32 +24,32 @@ class DBCreator:
         self.request_handler = request_handler
         self.logger = logger
 
-    def createDatabase(self):
+    def create_database(self):
         """
         Execute the creation to the database.
         """
         self.logger.info("Creation of the database.")
-        self.__createXalanihTable()
-        self.__executeCreationScript()
-        self.__fillXalanihTable()
+        self.__create_xalanih_table()
+        self.__execute_creation_script()
+        self.__fill_xalanih_table()
         self.logger.info("Database created.")
 
-    def __createXalanihTable(self):
+    def __create_xalanih_table(self):
         """
         Create the xalanih table.
         throws: XalanihException if the table already exists.
         """
-        if self.__doesXalanihTableExists():
+        if self.__does_xalanih_table_exists():
             raise XalanihException("The table {0} already exists."
                                     .format(Constants.XALANIH_TABLE),
                                 XalanihException.TABLE_EXISTS)
         self.logger.info("Creation of the table {0}."
                             .format(Constants.XALANIH_TABLE))
-        sqlRequest = self.request_handler.requestXalanihTableCreation()
-        self.logger.debug("[REQUEST]{0}".format(sqlRequest))
-        self.connection.query(sqlRequest)
+        sql_request = self.request_handler.request_xalanih_table_creation()
+        self.logger.debug("[REQUEST]{0}".format(sql_request))
+        self.connection.query(sql_request)
 
-    def __executeCreationScript(self):
+    def __execute_creation_script(self):
         """
         Execute the script creation.sql.
         throws: XalanihException if the file can't be oppened.
@@ -66,7 +66,7 @@ class DBCreator:
                                     .format(filename),
                                     XalanihException.NO_CREATION_SCRIPT)
 
-    def __fillXalanihTable(self):
+    def __fill_xalanih_table(self):
         """
         Fill the xalanih table with the list of update included 
         in the creation.
@@ -80,21 +80,21 @@ class DBCreator:
             self.logger.debug("Openning file with included updates: {0}"
                             .format(filename))
             # Initial creation
-            sqlRequest = self.request_handler.requestUpdateRecording()
-            self.logger.debug("[REQUEST] {0}".format(sqlRequest))
+            sql_request = self.request_handler.request_update_recording()
+            self.logger.debug("[REQUEST] {0}".format(sql_request))
             self.logger.debug("[REQUEST PARAMETERS] {0}"
                                 .format([Constants.INITIAL_CREATION]))
-            cursor.execute(sqlRequest, [Constants.INITIAL_CREATION])
+            cursor.execute(sql_request, [Constants.INITIAL_CREATION])
             # Updates                
             inc_updates_file = open(filename)
             for line in inc_updates_file:
                 if line != "":
                     update = line.strip()
                     self.logger.info("Registering update: {0}".format(update))
-                    sqlRequest = self.request_handler.requestUpdateRecording()
-                    self.logger.debug("[REQUEST] {0}".format(sqlRequest))
+                    sql_request = self.request_handler.request_update_recording()
+                    self.logger.debug("[REQUEST] {0}".format(sql_request))
                     self.logger.debug("[REQUEST PARAMETERS] {0}".format([update]))
-                    cursor.execute(sqlRequest,[update])
+                    cursor.execute(sql_request,[update])
             cursor.close()
             inc_updates_file.close()
         except IOError:
@@ -102,20 +102,20 @@ class DBCreator:
                                     " the included updates.")
             self.logger.warning("Skipping the filling of xalanih table.")
 
-    def __doesXalanihTableExists(self):
+    def __does_xalanih_table_exists(self):
         """
         Check if the xalanih table exists in the database.
         """
         self.logger.debug("Checking if the xalanih table already exists.")
-        request = self.request_handler.requestXalanihTable()
+        request = self.request_handler.request_xalanih_table()
         self.logger.debug("[REQUEST] {0}".format(request))
         cursor = self.connection.cursor()
         cursor.execute(request)
         results = cursor.fetchall()
         cursor.close()
-        return self.__doesResultsContainsXalanihTable(results)
+        return self.__contains_xalanih_table(results)
 
-    def __doesResultsContainsXalanihTable(self, results):
+    def __contains_xalanih_table(self, results):
         """
         Check if the given parameter contains the xalanih table.
         arguments:

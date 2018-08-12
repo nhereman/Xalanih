@@ -15,8 +15,8 @@ class MysqlConnector(DBConnector):
         """
         assert isinstance(params, Parameters)
         assert isinstance(logger, Logger)
-        self.connectionInfo = params.getConnectionInfo()
-        self.socket = params.getSocket()
+        self.connectionInfo = params.get_connection_info()
+        self.socket = params.get_socket()
         self.logger = logger
         self.connection = None
 
@@ -32,7 +32,7 @@ class MysqlConnector(DBConnector):
         self.logger.info("Connected.")
         return self.connection
 
-    def getConnection(self):
+    def get_connection(self):
         """
         returns: The connection object if connected. None otherwise.
         """
@@ -45,11 +45,11 @@ class MysqlConnector(DBConnector):
         returns: The list of arguments used to connect to the mysql database.
         """
         arguments = dict()
-        host = self.connectionInfo.getHost()
-        port = self.connectionInfo.getPort()
-        database = self.connectionInfo.getDatabase()
-        user = self.connectionInfo.getUser()
-        password = self.connectionInfo.getPassword()
+        host = self.connectionInfo.get_host()
+        port = self.connectionInfo.get_port()
+        database = self.connectionInfo.get_database()
+        user = self.connectionInfo.get_user()
+        password = self.connectionInfo.get_password()
 
         arguments["host"] = host
         arguments["db"] = database

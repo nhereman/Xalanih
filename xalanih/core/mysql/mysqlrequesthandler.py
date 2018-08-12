@@ -4,13 +4,13 @@ from xalanih.core.constants import Constants
 
 class MysqlRequestHandler(RequestHandler):
 
-    def requestXalanihTable(self):
+    def request_xalanih_table(self):
         """
         Returns the request to check if the Xalanih table exists.
         """
         return "SHOW TABLES like '{0}'".format(Constants.XALANIH_TABLE)
 
-    def requestXalanihTableCreation(self):
+    def request_xalanih_table_creation(self):
         """
         Returns the request that create the Xalanih table.
         """
@@ -23,7 +23,7 @@ class MysqlRequestHandler(RequestHandler):
                                                 Constants.COL_UPDT_NAME,
                                                 Constants.COL_UPDT_TIME)
 
-    def requestUpdateRecording(self):
+    def request_update_recording(self):
         """
         Returns the request that insert an update.
         """
@@ -33,7 +33,7 @@ class MysqlRequestHandler(RequestHandler):
                                                 Constants.COL_UPDT_NAME,
                                                 Constants.COL_UPDT_TIME)
     
-    def requestUpdate(self):
+    def request_update(self):
         """
         Returns the request that select an update.
         """

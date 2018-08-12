@@ -21,38 +21,38 @@ class TestDBUpdatorMySQL(unittest.TestCase):
         self.connection.reinit()
         self.dbupdator = None
 
-    def test_applyUpdatesNoTable(self):
-        self.connection.setResultList([()])
+    def test_apply_updatesNoTable(self):
+        self.connection.set_result_list([()])
         with self.assertRaises(XalanihException) as cm:
-            self.dbupdator.applyUpdates(None)
+            self.dbupdator.apply_updates(None)
         self.assertEqual(cm.exception.getErrorCode(),
                             XalanihException.TABLE_NOT_FOUND,
                             "Wrong error code.")
 
-    def test_applyUpdatesNoUpdates(self):
-        self.connection.setResultList([((Constants.XALANIH_TABLE,),)])
+    def test_apply_updatesNoUpdates(self):
+        self.connection.set_result_list([((Constants.XALANIH_TABLE,),)])
         self.dir += "creation_test"
         self.dbupdator = DBUpdator(self.dir, self.connection, self.req_handler,
                                     self.logger)
-        self.dbupdator.applyUpdates(None)
-        queries = self.connection.getQueries()
+        self.dbupdator.apply_updates(None)
+        queries = self.connection.get_queries()
         self.assertEqual(len(queries), 1)
 
-    def test_applyUpdatesSuccess(self):
+    def test_apply_updatesSuccess(self):
         self.dir += "update_test"
         inc_updates = self.getListofIncludedUpdates()
         updates = self.getListOfUpdates()
 
-        self.connection.setResultList([((Constants.XALANIH_TABLE,),)])
-        self.connection.setRowcountList(
+        self.connection.set_result_list([((Constants.XALANIH_TABLE,),)])
+        self.connection.set_rowcount_list(
                         [(1 if i <= len(inc_updates) else 0) for i in range(5)])
         self.dbupdator = DBUpdator(self.dir, self.connection, self.req_handler,
                                     self.logger)
-        self.dbupdator.applyUpdates(None)
+        self.dbupdator.apply_updates(None)
 
-        queries = self.connection.getQueries()
-        expectedQueries = 1 + len(updates) + 2*(len(updates)-len(inc_updates))
-        self.assertEqual(len(queries), expectedQueries,
+        queries = self.connection.get_queries()
+        expected_queries = 1 + len(updates) + 2*(len(updates)-len(inc_updates))
+        self.assertEqual(len(queries), expected_queries,
                             "Not the expected number of queries")
 
         for update in inc_updates:
@@ -65,22 +65,22 @@ class TestDBUpdatorMySQL(unittest.TestCase):
                                 "Wrong amount of request linked to" 
                                 " the update: {0}".format(update))
 
-    def test_applyUpdatesLastUpdateSuccess(self):
+    def test_apply_updatesLastUpdateSuccess(self):
         self.dir += "update_test"
         inc_updates = self.getListofIncludedUpdates()
         updates = self.getListOfUpdates()
         last_update = updates[-2]
 
-        self.connection.setResultList([((Constants.XALANIH_TABLE,),)])
-        self.connection.setRowcountList(
+        self.connection.set_result_list([((Constants.XALANIH_TABLE,),)])
+        self.connection.set_rowcount_list(
                         [(1 if i <= len(inc_updates) else 0) for i in range(5)])
         self.dbupdator = DBUpdator(self.dir, self.connection, self.req_handler,
                                     self.logger)
-        self.dbupdator.applyUpdates(last_update)
+        self.dbupdator.apply_updates(last_update)
 
-        queries = self.connection.getQueries()
-        expectedQueries = 1 + (len(updates)-1) + 2*(len(updates)-len(inc_updates)-1)
-        self.assertEqual(len(queries), expectedQueries,
+        queries = self.connection.get_queries()
+        expected_queries = 1 + (len(updates)-1) + 2*(len(updates)-len(inc_updates)-1)
+        self.assertEqual(len(queries), expected_queries,
                             "Not the expected number of queries")
 
         for update in inc_updates:
@@ -94,35 +94,33 @@ class TestDBUpdatorMySQL(unittest.TestCase):
                                 "Wrong amount of request linked to" 
                                 " the update: {0}".format(update))
 
-    def test_applyUpdatesLastUpdateNotExist(self):
+    def test_apply_updatesLastUpdateNotExist(self):
         self.dir += "update_test"
-        inc_updates = self.getListofIncludedUpdates()
-        updates = self.getListOfUpdates()
         last_update = "INVALID_UPDATE"
-        self.connection.setResultList([((Constants.XALANIH_TABLE,),)])
+        self.connection.set_result_list([((Constants.XALANIH_TABLE,),)])
         self.dbupdator = DBUpdator(self.dir, self.connection, self.req_handler,
                                     self.logger)
         with self.assertRaises(XalanihException) as cm:
-            self.dbupdator.applyUpdates(last_update)
+            self.dbupdator.apply_updates(last_update)
         self.assertEqual(cm.exception.getErrorCode(),
                             XalanihException.UPDATE_NOT_FOUND,
                             "Wrong error code.")
 
 
-    def test_applyUpdatesLastUpdateInIncluded(self):
+    def test_apply_updatesLastUpdateInIncluded(self):
         self.dir += "update_test"
         inc_updates = self.getListofIncludedUpdates()
         updates = self.getListOfUpdates()
         last_update = inc_updates[0]
 
-        self.connection.setResultList([((Constants.XALANIH_TABLE,),)])
-        self.connection.setRowcountList(
+        self.connection.set_result_list([((Constants.XALANIH_TABLE,),)])
+        self.connection.set_rowcount_list(
                         [(1 if i <= len(inc_updates) else 0) for i in range(5)])
         self.dbupdator = DBUpdator(self.dir, self.connection, self.req_handler,
                                     self.logger)
-        self.dbupdator.applyUpdates(last_update)
+        self.dbupdator.apply_updates(last_update)
 
-        queries = self.connection.getQueries()
+        queries = self.connection.get_queries()
         self.assertEqual(len(queries), 2,
                             "Not the expected number of queries")
 

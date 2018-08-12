@@ -68,43 +68,43 @@ class Parameters:
         self.args = self.parser.parse_args()
 
         # Define connection info
-        self.__defineConnectionInfo()
+        self.__define_connection_info()
 
-    def __defineConnectionInfo(self):
+    def __define_connection_info(self):
             assert self.args.port.isnumeric()
             self.connectionInfo = ConnectionInfo(host=self.args.host,
                         port=int(self.args.port), database=self.args.database,
                         user=self.args.user, password=self.args.password)
 
-    def getArguments(self):
+    def get_arguments(self):
         return self.args
 
-    def getAction(self):
+    def get_action(self):
         return self.args.action
 
-    def getDirectory(self):
+    def get_directory(self):
         return self.args.directory
 
-    def getTypeOfDatabase(self):
+    def get_database_type(self):
         return self.args.type
 
-    def getConnectionInfo(self):
+    def get_connection_info(self):
             return self.connectionInfo
 
-    def getSocket(self):
+    def get_socket(self):
         return self.args.socket
         
-    def getLogfile(self):
+    def get_log_file(self):
         return self.args.logfile
 
-    def getVerbosity(self):
+    def get_verbosity(self):
         return int(self.args.verbosity)
 
-    def getLastUpdate(self):
+    def get_last_update(self):
         update = self.args.last_update
         if update != None and update.endswith(".sql"):
             return update[:-4]
         return update
 
-    def getNoUpdate(self):
+    def get_no_update(self):
         return bool(self.args.no_update)
