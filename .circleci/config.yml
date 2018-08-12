@@ -32,6 +32,14 @@ jobs:
                 -Dsonar.host.url=https://sonarcloud.io \
                 -Dsonar.login=${sonar_login}
             fi
+            if [ "${CIRCLE_BRANCH}" == "version_1_1_0" ]; then
+              sonar-scanner \
+                -Dsonar.projectKey=xalanih_qube \
+                -Dsonar.organization=nhereman-github \
+                -Dsonar.sources=. \
+                -Dsonar.host.url=https://sonarcloud.io \
+                -Dsonar.login=${sonar_version_branch}
+            fi
   publish:
     docker:
       - image: python:3.7-alpine
