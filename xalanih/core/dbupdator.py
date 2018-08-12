@@ -66,9 +66,9 @@ class DBUpdator:
         self.logger.info("Applying update " + update + ".")
         filepath = (self.directory + "/" + Constants.DIR_UPDATE + "/" + update 
                         + ".sql")
-        updateFile = open(filepath)
-        SqlFileExecutor.execute(self.connection, updateFile, self.logger)
-        updateFile.close()
+        update_file = open(filepath)
+        SqlFileExecutor.execute(self.connection, update_file, self.logger)
+        update_file.close()
         self.__record_update(update)
 
     def __get_list_of_updates(self):

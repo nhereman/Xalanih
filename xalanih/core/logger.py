@@ -4,23 +4,23 @@ class Logger:
     
     def __init__(self, logfile, verbosity):
         level = self.__get_log_level(verbosity)
-        self.pythonLogger = logging.getLogger("xalanih")
-        self.pythonLogger.setLevel(logging.DEBUG)
-        self.pythonLogger.addHandler(self.__get_console_handler(level))
+        self.python_logger = logging.getLogger("xalanih")
+        self.python_logger.setLevel(logging.DEBUG)
+        self.python_logger.addHandler(self.__get_console_handler(level))
         if logfile != None:
-            self.pythonLogger.addHandler(self.__get_file_handler(logfile))
+            self.python_logger.addHandler(self.__get_file_handler(logfile))
 
     def error(self, msg):
-        self.pythonLogger.error(msg)
+        self.python_logger.error(msg)
 
     def warning(self, msg):
-        self.pythonLogger.warning(msg)
+        self.python_logger.warning(msg)
 
     def info(self, msg):
-        self.pythonLogger.info(msg)
+        self.python_logger.info(msg)
 
     def debug(self, msg):
-        self.pythonLogger.debug(msg)
+        self.python_logger.debug(msg)
 
     def shutdown(self):
         logging.shutdown()

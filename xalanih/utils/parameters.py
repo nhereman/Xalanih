@@ -72,7 +72,7 @@ class Parameters:
 
     def __define_connection_info(self):
             assert self.args.port.isnumeric()
-            self.connectionInfo = ConnectionInfo(host=self.args.host,
+            self.connection_info = ConnectionInfo(host=self.args.host,
                         port=int(self.args.port), database=self.args.database,
                         user=self.args.user, password=self.args.password)
 
@@ -89,7 +89,7 @@ class Parameters:
         return self.args.type
 
     def get_connection_info(self):
-            return self.connectionInfo
+            return self.connection_info
 
     def get_socket(self):
         return self.args.socket
