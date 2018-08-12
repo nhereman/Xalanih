@@ -6,7 +6,7 @@ from xalanih.core.constants import Constants
 
 class RequestHandlerFactory:
     @staticmethod
-    def get_request_handler(params):
+    def getRequestHandler(params):
         """
         Get the RequestHandler object linked to the type of database.
         arguments:
@@ -15,9 +15,9 @@ class RequestHandlerFactory:
         throws: XalanihException if the kind of db is not supported.
         """
         assert isinstance(params,Parameters)
-        database_type = params.get_database_type()
-        if(database_type == Constants.DB_MYSQL):
+        dbType = params.getTypeOfDatabase()
+        if(dbType == Constants.DB_MYSQL):
             return MysqlRequestHandler()
         raise XalanihException("This type of database is not managed :" 
-                                    + database_type + ".",
+                                    + dbType + ".",
                                     XalanihException.DB_TYPE_NOT_SUPPORTED)

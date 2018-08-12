@@ -8,28 +8,28 @@ class Connection:
         self.queries.append(query)
 
     def cursor(self):
-        return Cursor(self,self.get_next_row_count())
+        return Cursor(self,self.nextRowCount())
 
-    def get_queries(self):
+    def getQueries(self):
         return self.queries
 
     def reinit(self):
         self.queries = []
 
-    def set_result_list(self, results):
+    def setResultList(self, results):
         self.results = results
     
-    def set_rowcount_list(self, rowcounts):
+    def setRowcountList(self, rowcounts):
         self.rowcounts = rowcounts
 
-    def get_next_row_count(self):
+    def nextRowCount(self):
         if self.rowcounts == None or self.rowcounts == []:
             return None
         res = self.rowcounts[0]
         self.rowcounts = self.rowcounts[1:]
         return res
 
-    def get_next_result(self):
+    def nextResult(self):
         res = self.results[0]
         self.results = self.results[1:]
         return res
@@ -48,7 +48,7 @@ class Cursor:
         return None
 
     def fetchall(self):
-        return self.connection.get_next_result()
+        return self.connection.nextResult()
 
     def close(self):
         pass

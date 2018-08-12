@@ -12,33 +12,33 @@ import traceback
 
 # Get parameters
 params = parameters.Parameters()
-action = params.get_action()
+action = params.getAction()
 
 # Get Logger
-logger = Logger(params.get_log_file(), params.get_verbosity())
+logger = Logger(params.getLogfile(), params.getVerbosity())
 
 try:
-    connection = DBConnectorFactory.get_connection(params, logger)
-    request_handler = RequestHandlerFactory.get_request_handler(params)
+    connection = DBConnectorFactory.getConnection(params, logger)
+    request_handler = RequestHandlerFactory.getRequestHandler(params)
 
     # Creating database if required
     if (action == Constants.ACTION_CREATE):
-        creator = DBCreator(params.get_directory(), connection, request_handler,
+        creator = DBCreator(params.getDirectory(), connection, request_handler,
                                 logger)
-        creator.create_database()
+        creator.createDatabase()
         logger.debug("Committing transaction.")
         connection.commit()
 
     # Updating database if required
-    no_update = params.get_no_update()
+    no_update = params.getNoUpdate()
     if no_update and action == Constants.ACTION_CREATE:
         logger.info("The flag 'no update' is set. Skipping the updates.")
         
     if (action == Constants.ACTION_UPDATE or 
             (action == Constants.ACTION_CREATE and not no_update)):
-        updator = DBUpdator(params.get_directory(),connection,request_handler,
+        updator = DBUpdator(params.getDirectory(),connection,request_handler,
                                 logger)
-        updator.apply_updates(params.get_last_update())
+        updator.applyUpdates(params.getLastUpdate())
         connection.commit()
         logger.debug("Committing transaction.")
 

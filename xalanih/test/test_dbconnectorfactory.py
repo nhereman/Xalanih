@@ -15,10 +15,10 @@ class TestDBConnectorFactory(unittest.TestCase):
         self.params = None
         self.logger = None
     
-    def test_get_connectionNonSupported(self):
+    def test_getConnectionNonSupported(self):
         self.params.setTypeOfDatabase("INVALID")
         with self.assertRaises(XalanihException) as cm:
-            DBConnectorFactory.get_connection(self.params, self.logger)
+            DBConnectorFactory.getConnection(self.params, self.logger)
         self.assertEqual(cm.exception.getErrorCode(), 
                             XalanihException.DB_TYPE_NOT_SUPPORTED,
                             "Wrong error code.")

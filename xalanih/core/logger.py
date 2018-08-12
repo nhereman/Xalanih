@@ -3,29 +3,29 @@ import logging
 class Logger:
     
     def __init__(self, logfile, verbosity):
-        level = self.__get_log_level(verbosity)
-        self.python_logger = logging.getLogger("xalanih")
-        self.python_logger.setLevel(logging.DEBUG)
-        self.python_logger.addHandler(self.__get_console_handler(level))
+        level = self.__getLogLevel(verbosity)
+        self.logger = logging.getLogger("xalanih")
+        self.logger.setLevel(logging.DEBUG)
+        self.logger.addHandler(self.__getConsoleHandler(level))
         if logfile != None:
-            self.python_logger.addHandler(self.__get_file_handler(logfile))
+            self.logger.addHandler(self.__getFileHandler(logfile))
 
     def error(self, msg):
-        self.python_logger.error(msg)
+        self.logger.error(msg)
 
     def warning(self, msg):
-        self.python_logger.warning(msg)
+        self.logger.warning(msg)
 
     def info(self, msg):
-        self.python_logger.info(msg)
+        self.logger.info(msg)
 
     def debug(self, msg):
-        self.python_logger.debug(msg)
+        self.logger.debug(msg)
 
     def shutdown(self):
         logging.shutdown()
 
-    def __get_log_level(self, verbosity):
+    def __getLogLevel(self, verbosity):
         if verbosity == 0:
             return 60
         elif verbosity == 1:
@@ -38,20 +38,20 @@ class Logger:
             return logging.DEBUG
         return logging.INFO
 
-    def __get_file_handler(self, logfile):
+    def __getFileHandler(self, logfile):
         handler = logging.FileHandler(logfile, mode="w")
         handler.setLevel(logging.DEBUG)
-        handler.setFormatter(self.__get_file_formatter())
+        handler.setFormatter(self.__getFileFormatter())
         return handler
 
-    def __get_console_handler(self, level):
+    def __getConsoleHandler(self, level):
         handler = logging.StreamHandler()
         handler.setLevel(level)
-        handler.setFormatter(self.__get_console_formatter())
+        handler.setFormatter(self.__getConsoleFormatter())
         return handler
 
-    def __get_file_formatter(self):
+    def __getFileFormatter(self):
         return logging.Formatter("%(asctime)s - %(levelname)s: %(message)s")
 
-    def __get_console_formatter(self):
+    def __getConsoleFormatter(self):
         return logging.Formatter("%(levelname)s: %(message)s")

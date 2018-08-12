@@ -13,15 +13,15 @@ class TestRequestHandlerFactory(unittest.TestCase):
     def tearDown(self):
         self.params = None
 
-    def test_get_request_handlerWrongDbType(self):
+    def test_getRequestHandlerWrongDbType(self):
         self.params.setTypeOfDatabase("NON_SUPPORTED")
         with self.assertRaises(XalanihException) as cm:
-            RequestHandlerFactory.get_request_handler(self.params)
+            RequestHandlerFactory.getRequestHandler(self.params)
         self.assertEqual(cm.exception.getErrorCode(),
                             XalanihException.DB_TYPE_NOT_SUPPORTED,
                             "Wrong error code.")
 
-    def test_get_request_handlerMysql(self):
+    def test_getRequestHandlerMysql(self):
         self.params.setTypeOfDatabase("mysql")
-        request_handler = RequestHandlerFactory.get_request_handler(self.params)
+        request_handler = RequestHandlerFactory.getRequestHandler(self.params)
         self.assertIsInstance(request_handler,MysqlRequestHandler)

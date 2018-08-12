@@ -4,16 +4,16 @@ import sqlparse
 
 class SqlFileExecutor:
     @staticmethod
-    def execute(connection, sql_file, logger):
+    def execute(connection, sqlFile, logger):
         """
         Execute the sql queries from a file.
         arguments:
-        - sql_file: The sql file to execute.
+        - sqlFile: The sql file to execute.
         - logger: The logger.
         """
         assert isinstance(logger, Logger)
-        logger.debug("Executing SQL file: {0}".format(sql_file.name))
-        sql_statements = sqlparse.split(sql_file.read())
+        logger.debug("Executing SQL file: {0}".format(sqlFile.name))
+        sql_statements = sqlparse.split(sqlFile.read())
         cursor = connection.cursor()
         for sql in sql_statements:
             if sql != "":
