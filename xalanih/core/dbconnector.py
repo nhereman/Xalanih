@@ -8,9 +8,9 @@ class DBConnector:
         raise Exception("DbConnector-connect: DbConnector is abstract and "
                             "should not be called directly")
 
-    def getConnection(self):
+    def get_connection(self):
         """
         returns: The connection object if connected. None otherwise.
         """
-        raise Exception("DbConnector-getConnection: DbConnector is abstract "
+        raise Exception("DbConnector-get_connection: DbConnector is abstract "
                             "and should not be called directly")

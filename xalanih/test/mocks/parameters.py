@@ -8,5 +8,5 @@ class Parameters(RealParams):
     def setTypeOfDatabase(self, type):
         self.type = type
 
-    def getTypeOfDatabase(self):
+    def get_database_type(self):
         return self.type

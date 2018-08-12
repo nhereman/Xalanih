@@ -6,7 +6,7 @@ from xalanih.core.constants import Constants
 
 class DBConnectorFactory:
     @staticmethod
-    def getConnection(params, logger):
+    def get_connection(params, logger):
         """
         Get the connection object associated to the database.
         Argument:
@@ -18,7 +18,7 @@ class DBConnectorFactory:
         assert isinstance(params,Parameters)
         assert isinstance(logger, Logger)
         connector = None
-        database_type = params.getTypeOfDatabase()
+        database_type = params.get_database_type()
         logger.info("Connection to a {0} database".format(database_type))
         if(database_type == Constants.DB_MYSQL):
             connector = MysqlConnector(params, logger)
