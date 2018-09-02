@@ -1,9 +1,9 @@
 version: 2
 jobs:
-  test:
+  test_and_sonar:
     docker:
-      - image: python:3.7-alpine
-    working_directory: ~/project
+      - image: nhereman/python-sonar
+    working_directory: /root/src
     steps:
       - checkout
       - run:
@@ -13,14 +13,11 @@ jobs:
           name: "Installing requirements"
           command: pip3 install -r requirements.txt
       - run: 
+          name: "Installing nose and coverage"
+          command: pip3 install nose coverage
+      - run: 
           name: "Test"
-          command: python3 -m unittest
-  sonar:
-    docker:
-      - image: newtmitch/sonar-scanner
-    working_directory: /root/src
-    steps:
-      - checkout
+          command: python3 -m nose --with-coverage --cover-branches --cover-xml
       - run:
           name: "Sonarqube scan"
           command: |
@@ -30,7 +27,8 @@ jobs:
                 -Dsonar.organization=nhereman-github \
                 -Dsonar.sources=. \
                 -Dsonar.host.url=https://sonarcloud.io \
-                -Dsonar.login=${sonar_login}
+                -Dsonar.login=${sonar_login} \
+                -Dsonar.python.coverage.reportPath=coverage.xml
             fi
             if [ "${CIRCLE_BRANCH}" == "version_1_1_0" ]; then
               sonar-scanner \
@@ -38,7 +36,8 @@ jobs:
                 -Dsonar.organization=nhereman-github \
                 -Dsonar.sources=. \
                 -Dsonar.host.url=https://sonarcloud.io \
-                -Dsonar.login=${sonar_version_branch}
+                -Dsonar.login=${sonar_version_branch} \
+                -Dsonar.python.coverage.reportPath=coverage.xml
             fi
   publish:
     docker:
@@ -69,13 +68,10 @@ workflows:
   version: 2
   test_and_publish:
     jobs:
-      - test
-      - sonar:
-          requires:
-             - test
+      - test_and_sonar:
           context: pip-cred
       - publish:
           requires:
-             - sonar
+             - test_and_sonar
           context: pip-cred
         
