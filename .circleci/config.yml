@@ -28,7 +28,7 @@ jobs:
                 -Dsonar.sources=. \
                 -Dsonar.host.url=https://sonarcloud.io \
                 -Dsonar.login=${sonar_login} \
-                -Dsonar.coverage.exclusions="setup.py,*/test/*,*__init__.py" \
+                -Dsonar.coverage.exclusions="setup.py,*/test/*,*/test/mocks/*,__init__.py,*/__init__.py,*/*/__init__.py,*/*/*/__init__.py" \
                 -Dsonar.python.coverage.reportPath=coverage.xml
             fi
             if [ "${CIRCLE_BRANCH}" == "version_1_1_0" ]; then
@@ -38,7 +38,7 @@ jobs:
                 -Dsonar.sources=. \
                 -Dsonar.host.url=https://sonarcloud.io \
                 -Dsonar.login=${sonar_version_branch} \
-                -Dsonar.coverage.exclusions="setup.py,*/test/*,*__init__.py" \
+                -Dsonar.coverage.exclusions="setup.py,*/test/*,*/test/mocks/*,__init__.py,*/__init__.py,*/*/__init__.py,*/*/*/__init__.py" \
                 -Dsonar.python.coverage.reportPath=coverage.xml
             fi
   publish:
