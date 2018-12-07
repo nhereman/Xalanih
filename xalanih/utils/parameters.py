@@ -5,7 +5,7 @@ from xalanih.core.constants import Constants
 
 class Parameters:
 
-    def __init__(self):
+    def __init__(self, args = None):
         self.parser = argparse.ArgumentParser(
             description="Xalanih: Database versioning helper.")
         # Action param
@@ -65,7 +65,7 @@ class Parameters:
                         "update after the creation script. This flag has "
                         "only an effect when Xalanih is called for creation.")
                 
-        self.args = self.parser.parse_args()
+        self.args = self.parser.parse_args(args)
 
         # Define connection info
         self.__define_connection_info()
