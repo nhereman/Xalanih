@@ -1,1 +1,1 @@
-__all__ = ["connectioninfo","constants","dbconnector","dbconnectorfactory","dbcreator","dbupdator","logger","requesthandler","requesthandlerfactory","sqlfileexecutor","xalanihexception"]
+__all__ = ["connectioninfo","constants","dbconnector","dbconnectorfactory","dbcreator","dbchecker","dbupdator","logger","requesthandler","requesthandlerfactory","sqlfileexecutor","xalanihexception"]

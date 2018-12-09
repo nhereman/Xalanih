@@ -3,6 +3,7 @@ import argparse
 from xalanih.core.connectioninfo import *
 from xalanih.core.constants import Constants
 
+
 class Parameters:
 
     def __init__(self, args = None):
@@ -10,20 +11,22 @@ class Parameters:
             description="Xalanih: Database versioning helper.")
         # Action param
         self.parser.add_argument("action",
-                choices=[Constants.ACTION_CREATE, Constants.ACTION_UPDATE],
+                choices=[Constants.ACTION_CREATE, Constants.ACTION_UPDATE,
+                         Constants.ACTION_CHECK_UPDATE],
                 help="Give the action to execute. create: Create \
                 the database from zero. update: execute the needed \
-                update scripts on an existing database")
+                update scripts on an existing database. check_update: \
+                print the latest update.")
 
         # DB files directory
         self.parser.add_argument("-d","--directory", dest= "directory",
-                default=".")
+                                 default=".")
 
         # DB Type
         self.parser.add_argument("-t", "--type",
-                choices=[Constants.DB_MYSQL], dest="type"
-                ,default=Constants.DB_MYSQL,
-                help="Select the type of database. (i.e. mysql)")
+                                 choices=[Constants.DB_MYSQL], dest="type",
+                                 default=Constants.DB_MYSQL,
+                                 help="Select the type of database. (i.e. mysql)")
 
         # Host
         self.parser.add_argument("-H", "--host", dest="host",

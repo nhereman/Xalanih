@@ -7,6 +7,7 @@ class Constants:
     DB_MYSQL = "mysql"
     ACTION_CREATE = "create"
     ACTION_UPDATE = "update"
+    ACTION_CHECK_UPDATE = "check_update"
     PATH_CREATION = "/creation/creation.sql"
     PATH_INC_UPDATES = "creation/included_updates"
     DIR_UPDATE = "update"

@@ -40,3 +40,13 @@ class MysqlRequestHandler(RequestHandler):
         return "SELECT * FROM {0} WHERE {1} = %s".format(
                                                 Constants.XALANIH_TABLE,
                                                 Constants.COL_UPDT_NAME)
+
+    def request_last_update(self):
+        """
+        Returns the request that select the last update.
+        """
+        return ("SELECT {0} " 
+                "FROM {1} "
+                "ORDER BY id DESC LIMIT 1").format(
+                                            Constants.COL_UPDT_NAME,
+                                            Constants.XALANIH_TABLE)

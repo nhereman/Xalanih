@@ -2,6 +2,7 @@
 from xalanih.utils import parameters
 from xalanih.core.dbcreator import DBCreator
 from xalanih.core.dbupdator import DBUpdator
+from xalanih.core.dbchecker import DBChecker
 from xalanih.core.dbconnectorfactory import DBConnectorFactory
 from xalanih.core.requesthandlerfactory import RequestHandlerFactory
 from xalanih.core.xalanihexception import XalanihException
@@ -22,9 +23,9 @@ try:
     request_handler = RequestHandlerFactory.get_request_handler(params)
 
     # Creating database if required
-    if (action == Constants.ACTION_CREATE):
+    if action == Constants.ACTION_CREATE:
         creator = DBCreator(params.get_directory(), connection, request_handler,
-                                logger)
+                            logger)
         creator.create_database()
         logger.debug("Committing transaction.")
         connection.commit()
@@ -36,11 +37,17 @@ try:
         
     if (action == Constants.ACTION_UPDATE or 
             (action == Constants.ACTION_CREATE and not no_update)):
-        updator = DBUpdator(params.get_directory(),connection,request_handler,
-                                logger)
-        updator.apply_updates(params.get_last_update())
+        updater = DBUpdator(params.get_directory(), connection, request_handler,
+                            logger)
+        updater.apply_updates(params.get_last_update())
         connection.commit()
         logger.debug("Committing transaction.")
+
+    # Check last update
+    if action == Constants.ACTION_CHECK_UPDATE:
+        checker = DBChecker(connection, request_handler, logger)
+        last_update = checker.check_last_update()
+        print(last_update)
 
     logger.info("Done.")
 
@@ -63,4 +70,3 @@ finally:
         logger.debug("Closing connection to database.")
         connection.close()
     logger.shutdown()
-    

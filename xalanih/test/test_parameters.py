@@ -12,6 +12,10 @@ class TestParameters(unittest.TestCase):
         params = Parameters(args)
         self.assertEquals(params.get_action(), Constants.ACTION_CREATE)
 
+        args = ["check_update", "db"]
+        params = Parameters(args)
+        self.assertEquals(params.get_action(), Constants.ACTION_CHECK_UPDATE)
+
         args = ["update", "db"]
         params = Parameters(args)
         connection_info = params.get_connection_info()

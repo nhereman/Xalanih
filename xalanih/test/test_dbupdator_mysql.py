@@ -7,6 +7,7 @@ from xalanih.core.mysql.mysqlrequesthandler import MysqlRequestHandler
 from xalanih.test.mocks.connection import Connection
 from xalanih.test.mocks.logger import Logger
 
+
 class TestDBUpdatorMySQL(unittest.TestCase):
 
     def setUp(self):

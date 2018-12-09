@@ -50,5 +50,8 @@ class Cursor:
     def fetchall(self):
         return self.connection.get_next_result()
 
+    def fetchone(self):
+        return self.connection.get_next_result()
+
     def close(self):
         pass
