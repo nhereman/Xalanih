@@ -6,6 +6,7 @@ from xalanih.core.xalanihexception import XalanihException
 from xalanih.core.mysql.mysqlrequesthandler import MysqlRequestHandler
 from xalanih.test.mocks.connection import Connection
 from xalanih.test.mocks.logger import Logger
+from xalanih.test.mocks.dbchecker import DBChecker
 
 
 class TestDBCreatorMySQL(unittest.TestCase):
@@ -23,30 +24,36 @@ class TestDBCreatorMySQL(unittest.TestCase):
         self.dbcreator = None
 
     def test__createDbAlreadyExists(self):
-        self.connection.set_result_list([((Constants.XALANIH_TABLE,),)])
+        checker = DBChecker(exists=True)
+
+        self.connection.set_result_list([])
         with self.assertRaises(XalanihException) as cm:
-            self.dbcreator.create_database()
+            self.dbcreator.create_database(checker)
         self.assertEqual(cm.exception.getErrorCode(),
                             XalanihException.TABLE_EXISTS,
                             "Wrong error code.")
 
     def test_createDbNoScript(self):
+        checker = DBChecker(exists=False)
+
         self.connection.set_result_list([()])
         with self.assertRaises(XalanihException) as cm:
-            self.dbcreator.create_database()
+            self.dbcreator.create_database(checker)
         self.assertEqual(cm.exception.getErrorCode(),
                             XalanihException.NO_CREATION_SCRIPT,
                             "Wrong error code.")
 
     def test_createDbSuccess(self):
+        checker = DBChecker(exists=False)
+
         self.connection.set_result_list([()])
         self.dir = self.dir + "/creation_test/"
         self.dbcreator = DBCreator(self.dir, self.connection, self.req_handler,
                                     self.logger)
-        self.dbcreator.create_database()
+        self.dbcreator.create_database(checker)
 
         queries = self.connection.get_queries()
-        self.assertEqual(len(queries), 8, "Wrong number of queries.")
+        self.assertEqual(len(queries), 7, "Wrong number of queries.")
 
         inc_files = open(self.dir + "creation/included_updates")
         lines = inc_files.readlines()
@@ -68,6 +75,6 @@ class TestDBCreatorMySQL(unittest.TestCase):
 
     def isXalanihTableRequested(self):
         for q in self.connection.get_queries():
-            if q == self.req_handler.request_xalanih_table():
+            if q == self.req_handler.request_xalanih_table_creation():
                 return True
         return False

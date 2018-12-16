@@ -24,10 +24,14 @@ class DBCreator:
         self.request_handler = request_handler
         self.logger = logger
 
-    def create_database(self):
+    def create_database(self, db_checker):
         """
         Execute the creation to the database.
         """
+        if db_checker.check_db_exists():
+            raise XalanihException("The table {0} already exists."
+                                    .format(Constants.XALANIH_TABLE),
+                                XalanihException.TABLE_EXISTS)
         self.logger.info("Creation of the database.")
         self.__create_xalanih_table()
         self.__execute_creation_script()
@@ -39,10 +43,6 @@ class DBCreator:
         Create the xalanih table.
         throws: XalanihException if the table already exists.
         """
-        if self.__does_xalanih_table_exists():
-            raise XalanihException("The table {0} already exists."
-                                    .format(Constants.XALANIH_TABLE),
-                                XalanihException.TABLE_EXISTS)
         self.logger.info("Creation of the table {0}."
                             .format(Constants.XALANIH_TABLE))
         sql_request = self.request_handler.request_xalanih_table_creation()
@@ -102,28 +102,3 @@ class DBCreator:
                                     " the included updates.")
             self.logger.warning("Skipping the filling of xalanih table.")
 
-    def __does_xalanih_table_exists(self):
-        """
-        Check if the xalanih table exists in the database.
-        """
-        self.logger.debug("Checking if the xalanih table already exists.")
-        request = self.request_handler.request_xalanih_table()
-        self.logger.debug("[REQUEST] {0}".format(request))
-        cursor = self.connection.cursor()
-        cursor.execute(request)
-        results = cursor.fetchall()
-        cursor.close()
-        return self.__contains_xalanih_table(results)
-
-    def __contains_xalanih_table(self, results):
-        """
-        Check if the given parameter contains the xalanih table.
-        arguments:
-        - results: The result to the sql request looking for xalanih table.
-                    format: [(table1,), (table2,), ...]
-        returns: True if present, False otherwise.
-        """
-        for result in results:
-            if result[0] == Constants.XALANIH_TABLE:
-                return True
-        return False

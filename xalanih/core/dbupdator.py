@@ -26,7 +26,7 @@ class DBUpdator:
         self.request_handler = request_handler
         self.logger = logger
 
-    def apply_updates(self, last_update):
+    def apply_updates(self, db_checker, last_update):
         """
         Apply the updates to the database.
         arguments:
@@ -36,7 +36,7 @@ class DBUpdator:
         - XalanihException if the last_update does not exists.
         """
         self.logger.info("Updating database.")
-        if not self.__does_xalanih_table_exists():
+        if not db_checker.check_db_exists():
             raise XalanihException("The xalanih table does not exist.",
                                     XalanihException.TABLE_NOT_FOUND)
         updates_to_apply = self.__get_list_of_updates_to_apply(last_update)
@@ -143,28 +143,3 @@ class DBUpdator:
         cursor.close()
         return cursor.rowcount == 1
 
-    def __does_xalanih_table_exists(self):
-        """
-        Check if the Xalanih table already exists.
-        return: True if the table already exists. False otherwise.
-        """
-        self.logger.debug("Checking if the xalanih table already exists.")
-        request = self.request_handler.request_xalanih_table()
-        self.logger.debug("[REQUEST] {0}".format(request))
-        cursor = self.connection.cursor()
-        cursor.execute(request)
-        results = cursor.fetchall()
-        cursor.close()
-        return self.__contains_xalanih_table(results)
-
-    def __contains_xalanih_table(self, results):
-        """
-        Check if the given parameter contains the xalanih table.
-        arguments:
-        - results: The result to the sql request looking for xalanih table.
-        returns: True if present, False otherwise.
-        """
-        for result in results:
-            if result[0] == Constants.XALANIH_TABLE:
-                return True
-        return False

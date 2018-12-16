@@ -32,3 +32,13 @@ class TestDBCheckerMysql(unittest.TestCase):
         self.assertEquals(e.exception.getErrorCode(),
                           XalanihException.TABLE_NOT_FOUND,
                           "Wrong error code.")
+
+    def test_check_existing_db(self):
+        self.connection.set_result_list([((Constants.XALANIH_TABLE,),)])
+        result = self.checker.check_db_exists()
+        self.assertTrue(result, "Table not detected.")
+
+    def test_non_existing_db(self):
+        self.connection.set_result_list([()])
+        result = self.checker.check_db_exists()
+        self.assertFalse(result, "Table detected when it should not.")

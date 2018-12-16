@@ -27,7 +27,7 @@ class DBChecker:
         """
         self.logger.info("Checking last update.")
 
-        if not self.__does_xalanih_table_exists():
+        if not self.check_db_exists():
             raise XalanihException("The table {0} does not exist."
                                    .format(Constants.XALANIH_TABLE),
                                    XalanihException.TABLE_NOT_FOUND)
@@ -43,7 +43,7 @@ class DBChecker:
         self.logger.debug("[REQUEST RESULT] {0}".format(result[0]))
         return result[0]
 
-    def __does_xalanih_table_exists(self):
+    def check_db_exists(self):
         """
         Check if the xalanih table exists in the database.
         """

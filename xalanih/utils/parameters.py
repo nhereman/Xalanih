@@ -12,7 +12,7 @@ class Parameters:
         # Action param
         self.parser.add_argument("action",
                 choices=[Constants.ACTION_CREATE, Constants.ACTION_UPDATE,
-                         Constants.ACTION_CHECK_UPDATE],
+                         Constants.ACTION_CHECK_UPDATE, Constants.ACTION_CHECK_DB],
                 help="Give the action to execute. create: Create \
                 the database from zero. update: execute the needed \
                 update scripts on an existing database. check_update: \

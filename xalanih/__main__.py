@@ -22,11 +22,18 @@ try:
     connection = DBConnectorFactory.get_connection(params, logger)
     request_handler = RequestHandlerFactory.get_request_handler(params)
 
+    checker = DBChecker(connection, request_handler, logger)
+
+    # Check if table already exists
+    if action == Constants.ACTION_CHECK_DB:
+        db_exists = checker.check_db_exists()
+        sys.exit(0 if db_exists else XalanihException.TABLE_NOT_FOUND)
+
     # Creating database if required
     if action == Constants.ACTION_CREATE:
         creator = DBCreator(params.get_directory(), connection, request_handler,
                             logger)
-        creator.create_database()
+        creator.create_database(checker)
         logger.debug("Committing transaction.")
         connection.commit()
 
@@ -39,7 +46,7 @@ try:
             (action == Constants.ACTION_CREATE and not no_update)):
         updater = DBUpdator(params.get_directory(), connection, request_handler,
                             logger)
-        updater.apply_updates(params.get_last_update())
+        updater.apply_updates(checker, params.get_last_update())
         connection.commit()
         logger.debug("Committing transaction.")
 
