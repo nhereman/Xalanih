@@ -1,4 +1,6 @@
 import unittest
+import sys
+sys.modules['xalanih.core.mysql.mysqlconnector'] = __import__('xalanih.test.mocks.mysqlconnector', fromlist="MysqlConnector")
 from xalanih.core.dbconnectorfactory import DBConnectorFactory
 from xalanih.core.xalanihexception import XalanihException
 from xalanih.test.mocks.parameters import Parameters
@@ -22,3 +24,8 @@ class TestDBConnectorFactory(unittest.TestCase):
         self.assertEqual(cm.exception.getErrorCode(), 
                             XalanihException.DB_TYPE_NOT_SUPPORTED,
                             "Wrong error code.")
+
+    def test_get_connection_mysql(self):
+        self.params.setTypeOfDatabase("mysql")
+        connection = DBConnectorFactory.get_connection(self.params, self.logger)
+        self.assertEquals(connection, "connect")
