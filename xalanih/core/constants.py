@@ -5,6 +5,7 @@ class Constants:
     COL_UPDT_NAME = "update_name"
     COL_UPDT_TIME = "update_apply_time"
     DB_MYSQL = "mysql"
+    DB_POSTGRESQL = "postgresql"
     ACTION_CREATE = "create"
     ACTION_UPDATE = "update"
     ACTION_CHECK_UPDATE = "check_update"

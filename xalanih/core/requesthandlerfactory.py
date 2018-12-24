@@ -1,5 +1,6 @@
 from xalanih.utils.parameters import Parameters
 from xalanih.core.mysql.mysqlrequesthandler import MysqlRequestHandler
+from xalanih.core.postgresql.postgresqlrequesthandler import PostgreSQLRequestHandler
 from xalanih.core.xalanihexception import XalanihException
 from xalanih.core.constants import Constants
 
@@ -18,6 +19,8 @@ class RequestHandlerFactory:
         database_type = params.get_database_type()
         if(database_type == Constants.DB_MYSQL):
             return MysqlRequestHandler()
+        elif (database_type == Constants.DB_POSTGRESQL):
+            return PostgreSQLRequestHandler()
         raise XalanihException("This type of database is not managed :" 
                                     + database_type + ".",
                                     XalanihException.DB_TYPE_NOT_SUPPORTED)

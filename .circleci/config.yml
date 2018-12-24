@@ -9,7 +9,10 @@ jobs:
       - run:
           name: "Installing requirement for mysqlclient"
           command: apk update && apk add --no-cache mariadb-dev && apk add --no-cache gcc && apk add --no-cache libc-dev
-      - run: 
+      - run:
+          name: "Installing requirement for psycopg2"
+          command: apk add postgresql-dev musl-dev
+      - run:
           name: "Installing requirements"
           command: pip3 install -r requirements.txt
       - run: 

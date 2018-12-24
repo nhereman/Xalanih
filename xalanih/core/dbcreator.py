@@ -47,7 +47,7 @@ class DBCreator:
                             .format(Constants.XALANIH_TABLE))
         sql_request = self.request_handler.request_xalanih_table_creation()
         self.logger.debug("[REQUEST]{0}".format(sql_request))
-        self.connection.query(sql_request)
+        self.connection.cursor().execute(sql_request)
 
     def __execute_creation_script(self):
         """

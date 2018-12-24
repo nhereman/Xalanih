@@ -1,6 +1,7 @@
 from xalanih.utils.parameters import Parameters
 from xalanih.core.logger import Logger
 from xalanih.core.mysql.mysqlconnector import MysqlConnector
+from xalanih.core.postgresql.postgresqlconnector import PostgreSQLConnector
 from xalanih.core.xalanihexception import XalanihException
 from xalanih.core.constants import Constants
 
@@ -22,6 +23,8 @@ class DBConnectorFactory:
         logger.info("Connection to a {0} database".format(database_type))
         if(database_type == Constants.DB_MYSQL):
             connector = MysqlConnector(params, logger)
+        elif(database_type == Constants.DB_POSTGRESQL):
+            connector = PostgreSQLConnector(params, logger)
         if connector == None:
             raise XalanihException("DBConnectorFactory: This type of database" 
                                 "is not managed :" + database_type + ".",

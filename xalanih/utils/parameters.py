@@ -19,12 +19,13 @@ class Parameters:
                 print the latest update.")
 
         # DB files directory
-        self.parser.add_argument("-d","--directory", dest= "directory",
+        self.parser.add_argument("-d", "--directory", dest="directory",
                                  default=".")
 
         # DB Type
         self.parser.add_argument("-t", "--type",
-                                 choices=[Constants.DB_MYSQL], dest="type",
+                                 choices=[Constants.DB_MYSQL, Constants.DB_POSTGRESQL],
+                                 dest="type",
                                  default=Constants.DB_MYSQL,
                                  help="Select the type of database. (i.e. mysql)")
 

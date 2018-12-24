@@ -1,6 +1,7 @@
 import unittest
 import sys
 sys.modules['xalanih.core.mysql.mysqlconnector'] = __import__('xalanih.test.mocks.mysqlconnector', fromlist="MysqlConnector")
+sys.modules['xalanih.core.postgresql.postgresqlconnector'] = __import__('xalanih.test.mocks.postgresqlconnector', fromlist="PostgreSQLConnector")
 from xalanih.core.dbconnectorfactory import DBConnectorFactory
 from xalanih.core.xalanihexception import XalanihException
 from xalanih.test.mocks.parameters import Parameters
@@ -29,3 +30,8 @@ class TestDBConnectorFactory(unittest.TestCase):
         self.params.setTypeOfDatabase("mysql")
         connection = DBConnectorFactory.get_connection(self.params, self.logger)
         self.assertEquals(connection, "connect")
+
+    def test_get_connection_postgresql(self):
+        self.params.setTypeOfDatabase("postgresql")
+        connection = DBConnectorFactory.get_connection(self.params, self.logger)
+        self.assertEquals(connection, "connect_post")
