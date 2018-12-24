@@ -1,4 +1,4 @@
-from xalanih.utils.parameters import Parameters
+from xalanih.core.parameters import Parameters
 from xalanih.core.logger import Logger
 from xalanih.core.mysql.mysqlconnector import MysqlConnector
 from xalanih.core.postgresql.postgresqlconnector import PostgreSQLConnector

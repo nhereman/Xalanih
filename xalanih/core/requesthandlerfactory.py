@@ -1,4 +1,4 @@
-from xalanih.utils.parameters import Parameters
+from xalanih.core.parameters import Parameters
 from xalanih.core.mysql.mysqlrequesthandler import MysqlRequestHandler
 from xalanih.core.postgresql.postgresqlrequesthandler import PostgreSQLRequestHandler
 from xalanih.core.xalanihexception import XalanihException

@@ -1,4 +1,4 @@
-from xalanih.utils.parameters import Parameters as RealParams
+from xalanih.core.parameters import Parameters as RealParams
 from xalanih.core.connectioninfo import ConnectionInfo
 
 class Parameters(RealParams):

@@ -1,5 +1,5 @@
 import MySQLdb as db
-from xalanih.utils.parameters import Parameters
+from xalanih.core.parameters import Parameters
 from xalanih.core.dbconnector import DBConnector
 from xalanih.core.logger import Logger
 from xalanih.core.xalanihexception import XalanihException

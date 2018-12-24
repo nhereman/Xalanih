@@ -1,7 +1,7 @@
 import unittest
 from io import StringIO
 from unittest.mock import patch
-from xalanih.utils.parameters import *
+from xalanih.core.parameters import *
 
 
 
