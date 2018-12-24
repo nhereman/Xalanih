@@ -18,12 +18,12 @@ class TestSqlFileExecutor(unittest.TestCase):
         sql_file = open(self.dir + "success.sql")
         SqlFileExecutor.execute(self.connection, sql_file, self.logger)
         sql_file.close()
-        self.assertEqual(len(self.connection.get_queries()), 3,
+        self.assertEqual(3, len(self.connection.get_queries()),
                             "Wrong number of request executed.")
 
     def test_executeEmpty(self):
         sql_file = open(self.dir + "empty.sql")
         SqlFileExecutor.execute(self.connection, sql_file, self.logger)
         sql_file.close()
-        self.assertEqual(len(self.connection.get_queries()), 0,
+        self.assertEqual(0, len(self.connection.get_queries()),
                             "Wrong number of request executed.")

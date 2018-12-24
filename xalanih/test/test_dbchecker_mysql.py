@@ -23,14 +23,14 @@ class TestDBCheckerMysql(unittest.TestCase):
     def test_last_update(self):
         self.connection.set_result_list([((Constants.XALANIH_TABLE,),), ("tst_update",)])
         result = self.checker.check_last_update()
-        self.assertEquals(result, "tst_update")
+        self.assertEquals("tst_update", result)
 
     def test_last_update_no_table(self):
         self.connection.set_result_list([()])
         with self.assertRaises(XalanihException) as e:
             self.checker.check_last_update()
-        self.assertEquals(e.exception.getErrorCode(),
-                          XalanihException.TABLE_NOT_FOUND,
+        self.assertEquals(XalanihException.TABLE_NOT_FOUND,
+                          e.exception.getErrorCode(),
                           "Wrong error code.")
 
     def test_check_existing_db(self):

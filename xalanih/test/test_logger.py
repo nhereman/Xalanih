@@ -48,7 +48,7 @@ class MyTestCase(unittest.TestCase):
         logger = Logger(None, 0)
 
         # Only terminal handler
-        self.assertEquals(len(logger.python_logger.handlers), 1)
+        self.assertEquals(1, len(logger.python_logger.handlers))
         
         logger.shutdown()
         handler = logger.python_logger.handlers[0]
@@ -64,7 +64,7 @@ class MyTestCase(unittest.TestCase):
 
     def check_verbosity(self, verbosity, level):
         logger = Logger(None, verbosity)
-        self.assertEquals(logger.python_logger.handlers[0].level, level)
+        self.assertEquals(level, logger.python_logger.handlers[0].level)
         logger.shutdown()
         handler = logger.python_logger.handlers[0]
         logger.python_logger.removeHandler(handler)

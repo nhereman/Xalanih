@@ -22,16 +22,16 @@ class TestDBConnectorFactory(unittest.TestCase):
         self.params.setTypeOfDatabase("INVALID")
         with self.assertRaises(XalanihException) as cm:
             DBConnectorFactory.get_connection(self.params, self.logger)
-        self.assertEqual(cm.exception.getErrorCode(), 
-                            XalanihException.DB_TYPE_NOT_SUPPORTED,
+        self.assertEqual(XalanihException.DB_TYPE_NOT_SUPPORTED,
+                         cm.exception.getErrorCode(),
                             "Wrong error code.")
 
     def test_get_connection_mysql(self):
         self.params.setTypeOfDatabase("mysql")
         connection = DBConnectorFactory.get_connection(self.params, self.logger)
-        self.assertEquals(connection, "connect")
+        self.assertEquals("connect", connection)
 
     def test_get_connection_postgresql(self):
         self.params.setTypeOfDatabase("postgresql")
         connection = DBConnectorFactory.get_connection(self.params, self.logger)
-        self.assertEquals(connection, "connect_post")
+        self.assertEquals("connect_post", connection)

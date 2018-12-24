@@ -29,8 +29,8 @@ class TestDBUpdatorMySQL(unittest.TestCase):
         self.connection.set_result_list([()])
         with self.assertRaises(XalanihException) as cm:
             self.dbupdator.apply_updates(checker, None)
-        self.assertEqual(cm.exception.getErrorCode(),
-                            XalanihException.TABLE_NOT_FOUND,
+        self.assertEqual(XalanihException.TABLE_NOT_FOUND,
+                         cm.exception.getErrorCode(),
                             "Wrong error code.")
 
     def test_apply_updatesNoUpdates(self):
@@ -42,7 +42,7 @@ class TestDBUpdatorMySQL(unittest.TestCase):
                                     self.logger)
         self.dbupdator.apply_updates(checker, None)
         queries = self.connection.get_queries()
-        self.assertEqual(len(queries), 0)
+        self.assertEqual(0, len(queries))
 
     def test_apply_updatesSuccess(self):
         checker = DBChecker(exists=True)
@@ -60,16 +60,16 @@ class TestDBUpdatorMySQL(unittest.TestCase):
 
         queries = self.connection.get_queries()
         expected_queries = len(updates) + 2*(len(updates)-len(inc_updates))
-        self.assertEqual(len(queries), expected_queries,
+        self.assertEqual(expected_queries,len(queries),
                             "Not the expected number of queries")
 
         for update in inc_updates:
-            self.assertEqual(self.getNbRequested(queries, update), 1,
+            self.assertEqual(1, self.getNbRequested(queries, update),
                                 "Wrong amount of request linked to" 
                                 " the included update: {0}".format(update))
         
         for update in [u for u in updates if u not in inc_updates]:
-            self.assertEqual(self.getNbRequested(queries, update), 2,
+            self.assertEqual(2, self.getNbRequested(queries, update),
                                 "Wrong amount of request linked to" 
                                 " the update: {0}".format(update))
 
@@ -90,17 +90,17 @@ class TestDBUpdatorMySQL(unittest.TestCase):
 
         queries = self.connection.get_queries()
         expected_queries = (len(updates)-1) + 2*(len(updates)-len(inc_updates)-1)
-        self.assertEqual(len(queries), expected_queries,
+        self.assertEqual(expected_queries, len(queries),
                             "Not the expected number of queries")
 
         for update in inc_updates:
-            self.assertEqual(self.getNbRequested(queries, update), 1,
+            self.assertEqual(1, self.getNbRequested(queries, update),
                                 "Wrong amount of request linked to" 
                                 " the included update: {0}".format(update))
         
         for update in [u for u in updates 
                             if u not in inc_updates and u <= last_update]:
-            self.assertEqual(self.getNbRequested(queries, update), 2,
+            self.assertEqual(2, self.getNbRequested(queries, update),
                                 "Wrong amount of request linked to" 
                                 " the update: {0}".format(update))
 
@@ -114,8 +114,8 @@ class TestDBUpdatorMySQL(unittest.TestCase):
                                     self.logger)
         with self.assertRaises(XalanihException) as cm:
             self.dbupdator.apply_updates(checker, last_update)
-        self.assertEqual(cm.exception.getErrorCode(),
-                            XalanihException.UPDATE_NOT_FOUND,
+        self.assertEqual(XalanihException.UPDATE_NOT_FOUND,
+                         cm.exception.getErrorCode(),
                             "Wrong error code.")
 
 
@@ -135,15 +135,15 @@ class TestDBUpdatorMySQL(unittest.TestCase):
         self.dbupdator.apply_updates(checker, last_update)
 
         queries = self.connection.get_queries()
-        self.assertEqual(len(queries), 1,
+        self.assertEqual(1, len(queries),
                             "Not the expected number of queries")
 
-        self.assertEqual(self.getNbRequested(queries, last_update), 1,
+        self.assertEqual(1, self.getNbRequested(queries, last_update),
                             "Wrong amount of request linked to" 
                             " the included update: {0}".format(last_update))
         
         for update in [u for u in updates if u != last_update]:
-            self.assertEqual(self.getNbRequested(queries, update), 0,
+            self.assertEqual(0, self.getNbRequested(queries, update),
                                 "Wrong amount of request linked to" 
                                 " the update: {0}".format(update))
 

@@ -29,8 +29,8 @@ class TestDBCreatorMySQL(unittest.TestCase):
         self.connection.set_result_list([])
         with self.assertRaises(XalanihException) as cm:
             self.dbcreator.create_database(checker)
-        self.assertEqual(cm.exception.getErrorCode(),
-                            XalanihException.TABLE_EXISTS,
+        self.assertEqual(XalanihException.TABLE_EXISTS,
+                         cm.exception.getErrorCode(),
                             "Wrong error code.")
 
     def test_createDbNoScript(self):
@@ -39,8 +39,8 @@ class TestDBCreatorMySQL(unittest.TestCase):
         self.connection.set_result_list([()])
         with self.assertRaises(XalanihException) as cm:
             self.dbcreator.create_database(checker)
-        self.assertEqual(cm.exception.getErrorCode(),
-                            XalanihException.NO_CREATION_SCRIPT,
+        self.assertEqual(XalanihException.NO_CREATION_SCRIPT,
+                         cm.exception.getErrorCode(),
                             "Wrong error code.")
 
     def test_createDbSuccess(self):
@@ -53,7 +53,7 @@ class TestDBCreatorMySQL(unittest.TestCase):
         self.dbcreator.create_database(checker)
 
         queries = self.connection.get_queries()
-        self.assertEqual(len(queries), 7, "Wrong number of queries.")
+        self.assertEqual(7, len(queries), "Wrong number of queries.")
 
         inc_files = open(self.dir + "creation/included_updates")
         lines = inc_files.readlines()
