@@ -1,8 +1,10 @@
+# noinspection PyPep8Naming
 import MySQLdb as db
 from xalanih.core.parameters import Parameters
 from xalanih.core.dbconnector import DBConnector
 from xalanih.core.logger import Logger
 from xalanih.core.xalanihexception import XalanihException
+
 
 class MysqlConnector(DBConnector):
 
@@ -25,10 +27,10 @@ class MysqlConnector(DBConnector):
         Establish a connection with the database.
         returns: The connection object.
         """
-        if self.connection != None:
+        if self.connection is not None:
             raise XalanihException("You are already connected",
-                                         XalanihException.ALREADY_CONNECTED)
-        self.connection = db.connect(**self.__getConnectArgument())
+                                   XalanihException.ALREADY_CONNECTED)
+        self.connection = db.connect(**self.__get_connect_argument())
         self.logger.info("Connected.")
         return self.connection
 
@@ -37,9 +39,8 @@ class MysqlConnector(DBConnector):
         returns: The connection object if connected. None otherwise.
         """
         return self.connection
-        
 
-    def __getConnectArgument(self):
+    def __get_connect_argument(self):
         """
         Return the list of arguments used to connect to the mysql database.
         returns: The list of arguments used to connect to the mysql database.
@@ -55,13 +56,13 @@ class MysqlConnector(DBConnector):
         arguments["db"] = database
         arguments["user"] = user
 
-        if port != None:
+        if port is not None:
             arguments["port"] = port
         
-        if password != None:
+        if password is not None:
             arguments["passwd"] = password
 
-        if self.socket!= None:
+        if self.socket is not None:
             arguments["unix_socket"] = self.socket
 
         return arguments

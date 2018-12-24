@@ -30,8 +30,8 @@ class MysqlRequestHandler(RequestHandler):
         return ("INSERT INTO {0} "
                 "(`{1}`, `{2}`) "
                 "VALUES (%s, NOW())").format(Constants.XALANIH_TABLE,
-                                                Constants.COL_UPDT_NAME,
-                                                Constants.COL_UPDT_TIME)
+                                             Constants.COL_UPDT_NAME,
+                                             Constants.COL_UPDT_TIME)
     
     def request_update(self):
         """

@@ -30,7 +30,7 @@ class TestDBCheckerMysql(unittest.TestCase):
         with self.assertRaises(XalanihException) as e:
             self.checker.check_last_update()
         self.assertEquals(XalanihException.TABLE_NOT_FOUND,
-                          e.exception.getErrorCode(),
+                          e.exception.get_error_code(),
                           "Wrong error code.")
 
     def test_check_existing_db(self):

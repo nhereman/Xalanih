@@ -3,7 +3,7 @@ from xalanih.core.requesthandlerfactory import RequestHandlerFactory
 from xalanih.core.xalanihexception import XalanihException
 from xalanih.core.mysql.mysqlrequesthandler import MysqlRequestHandler
 from xalanih.test.mocks.parameters import Parameters
-from xalanih.test.mocks.logger import Logger
+
 
 class TestRequestHandlerFactory(unittest.TestCase):
 
@@ -14,14 +14,14 @@ class TestRequestHandlerFactory(unittest.TestCase):
         self.params = None
 
     def test_get_request_handlerWrongDbType(self):
-        self.params.setTypeOfDatabase("NON_SUPPORTED")
+        self.params.set_type_of_database("NON_SUPPORTED")
         with self.assertRaises(XalanihException) as cm:
             RequestHandlerFactory.get_request_handler(self.params)
         self.assertEqual(XalanihException.DB_TYPE_NOT_SUPPORTED,
-                         cm.exception.getErrorCode(),
-                        "Wrong error code.")
+                         cm.exception.get_error_code(),
+                         "Wrong error code.")
 
     def test_get_request_handlerMysql(self):
-        self.params.setTypeOfDatabase("mysql")
+        self.params.set_type_of_database("mysql")
         request_handler = RequestHandlerFactory.get_request_handler(self.params)
-        self.assertIsInstance(request_handler,MysqlRequestHandler)
+        self.assertIsInstance(request_handler, MysqlRequestHandler)

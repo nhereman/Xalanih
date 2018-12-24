@@ -1,6 +1,5 @@
 import unittest
 import os
-import logging
 from xalanih.core.logger import *
 
 
@@ -39,8 +38,8 @@ class MyTestCase(unittest.TestCase):
 
         # Clean handlers for next test
         logger.shutdown()
-        handler1=logger.python_logger.handlers[0]
-        handler2=logger.python_logger.handlers[1]
+        handler1 = logger.python_logger.handlers[0]
+        handler2 = logger.python_logger.handlers[1]
         logger.python_logger.removeHandler(handler1)
         logger.python_logger.removeHandler(handler2)
 

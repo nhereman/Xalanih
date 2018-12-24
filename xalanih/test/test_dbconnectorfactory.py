@@ -1,10 +1,16 @@
 import unittest
 import sys
-sys.modules['xalanih.core.mysql.mysqlconnector'] = __import__('xalanih.test.mocks.mysqlconnector', fromlist="MysqlConnector")
-sys.modules['xalanih.core.postgresql.postgresqlconnector'] = __import__('xalanih.test.mocks.postgresqlconnector', fromlist="PostgreSQLConnector")
+sys.modules['xalanih.core.mysql.mysqlconnector'] = \
+    __import__('xalanih.test.mocks.mysqlconnector', fromlist=["MysqlConnector"])
+sys.modules['xalanih.core.postgresql.postgresqlconnector'] = \
+    __import__('xalanih.test.mocks.postgresqlconnector', fromlist=["PostgreSQLConnector"])
+# noinspection PyPep8
 from xalanih.core.dbconnectorfactory import DBConnectorFactory
+# noinspection PyPep8
 from xalanih.core.xalanihexception import XalanihException
+# noinspection PyPep8
 from xalanih.test.mocks.parameters import Parameters
+# noinspection PyPep8
 from xalanih.test.mocks.logger import Logger
 
 
@@ -19,19 +25,19 @@ class TestDBConnectorFactory(unittest.TestCase):
         self.logger = None
     
     def test_get_connectionNonSupported(self):
-        self.params.setTypeOfDatabase("INVALID")
+        self.params.set_type_of_database("INVALID")
         with self.assertRaises(XalanihException) as cm:
             DBConnectorFactory.get_connection(self.params, self.logger)
         self.assertEqual(XalanihException.DB_TYPE_NOT_SUPPORTED,
-                         cm.exception.getErrorCode(),
-                            "Wrong error code.")
+                         cm.exception.get_error_code(),
+                         "Wrong error code.")
 
     def test_get_connection_mysql(self):
-        self.params.setTypeOfDatabase("mysql")
+        self.params.set_type_of_database("mysql")
         connection = DBConnectorFactory.get_connection(self.params, self.logger)
         self.assertEquals("connect", connection)
 
     def test_get_connection_postgresql(self):
-        self.params.setTypeOfDatabase("postgresql")
+        self.params.set_type_of_database("postgresql")
         connection = DBConnectorFactory.get_connection(self.params, self.logger)
         self.assertEquals("connect_post", connection)

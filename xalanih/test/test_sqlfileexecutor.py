@@ -4,6 +4,7 @@ from xalanih.core.sqlfileexecutor import SqlFileExecutor
 from xalanih.test.mocks.logger import Logger
 from xalanih.test.mocks.connection import Connection
 
+
 class TestSqlFileExecutor(unittest.TestCase):
 
     def setUp(self):
@@ -19,11 +20,11 @@ class TestSqlFileExecutor(unittest.TestCase):
         SqlFileExecutor.execute(self.connection, sql_file, self.logger)
         sql_file.close()
         self.assertEqual(3, len(self.connection.get_queries()),
-                            "Wrong number of request executed.")
+                         "Wrong number of request executed.")
 
     def test_executeEmpty(self):
         sql_file = open(self.dir + "empty.sql")
         SqlFileExecutor.execute(self.connection, sql_file, self.logger)
         sql_file.close()
         self.assertEqual(0, len(self.connection.get_queries()),
-                            "Wrong number of request executed.")
+                         "Wrong number of request executed.")

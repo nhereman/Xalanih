@@ -1,13 +1,14 @@
 from xalanih.core.parameters import Parameters as RealParams
 from xalanih.core.connectioninfo import ConnectionInfo
 
+
 class Parameters(RealParams):
 
     def __init__(self):
-        pass
+        self.type = None
 
-    def setTypeOfDatabase(self, type):
-        self.type = type
+    def set_type_of_database(self, db_type):
+        self.type = db_type
 
     def get_database_type(self):
         return self.type

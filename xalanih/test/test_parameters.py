@@ -4,11 +4,10 @@ from unittest.mock import patch
 from xalanih.core.parameters import *
 
 
-
 class TestParameters(unittest.TestCase):
 
     def test_minimalArguments(self):
-        args=["create", "db"]
+        args = ["create", "db"]
         params = Parameters(args)
         self.assertEquals(Constants.ACTION_CREATE, params.get_action())
 
@@ -55,9 +54,10 @@ class TestParameters(unittest.TestCase):
         self.assertEquals("update", params.get_last_update())
         self.assertEquals(True, params.get_no_update())
 
+    # noinspection PyTypeChecker
     @patch('sys.stderr', new_callable=StringIO)
     def test_wrongArgument(self, mock_stderr):
-        args = ["-p","aze","create", "db"]
+        args = ["-p", "aze", "create", "db"]
         with self.assertRaises(AssertionError):
             Parameters(args)
 
@@ -66,7 +66,7 @@ class TestParameters(unittest.TestCase):
             Parameters(args)
         self.assertRegexpMatches(mock_stderr.getvalue(), r"invalid choice")
 
-        args = ["-v", "10","create", "db"]
+        args = ["-v", "10", "create", "db"]
         with self.assertRaises(SystemExit):
             Parameters(args)
         self.assertRegexpMatches(mock_stderr.getvalue(), r"invalid choice")

@@ -5,7 +5,7 @@ from xalanih.core.connectioninfo import *
 class TestConnectionInfo(unittest.TestCase):
 
     def setUp(self):
-        self.connectionInfo = ConnectionInfo("localhost",1500,"db","user","pwd")
+        self.connectionInfo = ConnectionInfo("localhost", 1500, "db", "user", "pwd")
 
     def test_set_host(self):
         self.connectionInfo.set_host("new_host")

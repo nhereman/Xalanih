@@ -15,12 +15,12 @@ class RequestHandlerFactory:
         returns: The RequestHandler object linked to the type of database.
         throws: XalanihException if the kind of db is not supported.
         """
-        assert isinstance(params,Parameters)
+        assert isinstance(params, Parameters)
         database_type = params.get_database_type()
-        if(database_type == Constants.DB_MYSQL):
+        if database_type == Constants.DB_MYSQL:
             return MysqlRequestHandler()
-        elif (database_type == Constants.DB_POSTGRESQL):
+        elif database_type == Constants.DB_POSTGRESQL:
             return PostgreSQLRequestHandler()
         raise XalanihException("This type of database is not managed :" 
-                                    + database_type + ".",
-                                    XalanihException.DB_TYPE_NOT_SUPPORTED)
+                               + database_type + ".",
+                               XalanihException.DB_TYPE_NOT_SUPPORTED)

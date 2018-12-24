@@ -5,6 +5,7 @@ from xalanih.core.postgresql.postgresqlconnector import PostgreSQLConnector
 from xalanih.core.xalanihexception import XalanihException
 from xalanih.core.constants import Constants
 
+
 class DBConnectorFactory:
     @staticmethod
     def get_connection(params, logger):
@@ -16,18 +17,18 @@ class DBConnectorFactory:
         - logger: The logger.
         returns: A connection object
         """
-        assert isinstance(params,Parameters)
+        assert isinstance(params, Parameters)
         assert isinstance(logger, Logger)
         connector = None
         database_type = params.get_database_type()
         logger.info("Connection to a {0} database".format(database_type))
-        if(database_type == Constants.DB_MYSQL):
+        if database_type == Constants.DB_MYSQL:
             connector = MysqlConnector(params, logger)
-        elif(database_type == Constants.DB_POSTGRESQL):
+        elif database_type == Constants.DB_POSTGRESQL:
             connector = PostgreSQLConnector(params, logger)
-        if connector == None:
+        if connector is None:
             raise XalanihException("DBConnectorFactory: This type of database" 
-                                "is not managed :" + database_type + ".",
-                                XalanihException.DB_TYPE_NOT_SUPPORTED)
+                                   "is not managed :" + database_type + ".",
+                                   XalanihException.DB_TYPE_NOT_SUPPORTED)
         return connector.connect()
-        
+

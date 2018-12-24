@@ -56,7 +56,8 @@ class DBChecker:
         cursor.close()
         return self.__contains_xalanih_table(results)
 
-    def __contains_xalanih_table(self, results):
+    @staticmethod
+    def __contains_xalanih_table(results):
         """
         Check if the given parameter contains the xalanih table.
         arguments:

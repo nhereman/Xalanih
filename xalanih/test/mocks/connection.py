@@ -3,12 +3,13 @@ class Connection:
     def __init__(self):
         self.queries = []
         self.rowcounts = None
+        self.results = []
 
     def query(self, query):
         self.queries.append(query)
 
     def cursor(self):
-        return Cursor(self,self.get_next_row_count())
+        return Cursor(self, self.get_next_row_count())
 
     def get_queries(self):
         return self.queries
@@ -23,7 +24,7 @@ class Connection:
         self.rowcounts = rowcounts
 
     def get_next_row_count(self):
-        if self.rowcounts == None or self.rowcounts == []:
+        if self.rowcounts is None or self.rowcounts == []:
             return None
         res = self.rowcounts[0]
         self.rowcounts = self.rowcounts[1:]
@@ -37,12 +38,12 @@ class Connection:
 
 class Cursor:
 
-    def __init__(self,connection, rowcount):
+    def __init__(self, connection, rowcount):
         self.connection = connection
         self.rowcount = rowcount
 
     def execute(self, request, params=None):
-        if params != None:
+        if params is not None:
             request += str(params)
         self.connection.query(request)
         return None

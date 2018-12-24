@@ -1,5 +1,5 @@
-##-*- coding: utf-8 -*-
-from xalanih.utils import parameters
+# -*- coding: utf-8 -*-
+import xalanih.core.parameters as parameters
 from xalanih.core.dbcreator import DBCreator
 from xalanih.core.dbupdator import DBUpdator
 from xalanih.core.dbchecker import DBChecker
@@ -18,6 +18,7 @@ action = params.get_action()
 # Get Logger
 logger = Logger(params.get_log_file(), params.get_verbosity())
 
+# noinspection PyBroadException
 try:
     connection = DBConnectorFactory.get_connection(params, logger)
     request_handler = RequestHandlerFactory.get_request_handler(params)
@@ -63,13 +64,15 @@ except XalanihException as e:
     logger.error("Stopping the execution of Xalanih.")
     if 'connection' in vars():
         logger.debug("Rollbacking transaction.")
+        # noinspection PyUnboundLocalVariable
         connection.rollback()
-    sys.exit(e.getErrorCode())
+    sys.exit(e.get_error_code())
 except Exception as e:
     logger.error("Unexpected exception:\n {0}".format(traceback.format_exc()))
     logger.error("Stopping the execution of Xalanih.")
     if 'connection' in vars():
         logger.debug("Rollbacking transaction.")
+        # noinspection PyUnboundLocalVariable
         connection.rollback()
     sys.exit(XalanihException.UNEXPECTED_EXCEPTION)
 finally:

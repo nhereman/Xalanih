@@ -1,4 +1,4 @@
-##-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import argparse
 from xalanih.core.connectioninfo import *
 from xalanih.core.constants import Constants
@@ -6,17 +6,19 @@ from xalanih.core.constants import Constants
 
 class Parameters:
 
-    def __init__(self, args = None):
+    def __init__(self, args=None):
         self.parser = argparse.ArgumentParser(
             description="Xalanih: Database versioning helper.")
         # Action param
         self.parser.add_argument("action",
-                choices=[Constants.ACTION_CREATE, Constants.ACTION_UPDATE,
-                         Constants.ACTION_CHECK_UPDATE, Constants.ACTION_CHECK_DB],
-                help="Give the action to execute. create: Create \
-                the database from zero. update: execute the needed \
-                update scripts on an existing database. check_update: \
-                print the latest update.")
+                                 choices=[Constants.ACTION_CREATE,
+                                          Constants.ACTION_UPDATE,
+                                          Constants.ACTION_CHECK_UPDATE,
+                                          Constants.ACTION_CHECK_DB],
+                                 help="Give the action to execute. create: Create \
+                                the database from zero. update: execute the needed \
+                                update scripts on an existing database. check_update: \
+                                print the latest update.")
 
         # DB files directory
         self.parser.add_argument("-d", "--directory", dest="directory",
@@ -31,12 +33,13 @@ class Parameters:
 
         # Host
         self.parser.add_argument("-H", "--host", dest="host",
-                default="localhost", help="The hostname of the database")
+                                 default="localhost",
+                                 help="The hostname of the database")
 
         # Port
         self.parser.add_argument("-p", "--port", dest="port",
-                default="3306",
-                help="The port of the database")
+                                 default="3306",
+                                 help="The port of the database")
 
         # DB
         self.parser.add_argument("database", help="The database")
@@ -54,20 +57,20 @@ class Parameters:
         self.parser.add_argument("-l", "--logfile", dest="logfile")
 
         self.parser.add_argument("-v", "--verbosity", dest="verbosity",
-                choices=['0', '1', '2', '3', '4'], default='3',
-                help="Define the verbosity of the application."
-                        " 0=No log. 1=Errors. 2=Warnings."
-                        " 3=Informations(Default). 4=Full verbosity.")
+                                 choices=['0', '1', '2', '3', '4'], default='3',
+                                 help="Define the verbosity of the application."
+                                      " 0=No log. 1=Errors. 2=Warnings."
+                                      " 3=Informations(Default). 4=Full verbosity.")
 
         # Last update
-        self.parser.add_argument("-to","--to", dest="last_update",
-                help="Set the name of the last update that must be executed.")
+        self.parser.add_argument("-to", "--to", dest="last_update",
+                                 help="Set the name of the last update that must be executed.")
 
         self.parser.add_argument("-nu", "--noupdate", action="store_true",
-                dest="no_update",
-                help="If this flag is set, the script will not execute any " 
-                        "update after the creation script. This flag has "
-                        "only an effect when Xalanih is called for creation.")
+                                 dest="no_update",
+                                 help="If this flag is set, the script will not execute any " 
+                                      "update after the creation script. This flag has "
+                                      "only an effect when Xalanih is called for creation.")
                 
         self.args = self.parser.parse_args(args)
 
@@ -77,8 +80,10 @@ class Parameters:
     def __define_connection_info(self):
             assert self.args.port.isnumeric()
             self.connection_info = ConnectionInfo(host=self.args.host,
-                        port=int(self.args.port), database=self.args.database,
-                        user=self.args.user, password=self.args.password)
+                                                  port=int(self.args.port),
+                                                  database=self.args.database,
+                                                  user=self.args.user,
+                                                  password=self.args.password)
 
     def get_arguments(self):
         return self.args
@@ -106,7 +111,7 @@ class Parameters:
 
     def get_last_update(self):
         update = self.args.last_update
-        if update != None and update.endswith(".sql"):
+        if update is not None and update.endswith(".sql"):
             return update[:-4]
         return update
 

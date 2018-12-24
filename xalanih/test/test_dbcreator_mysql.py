@@ -1,7 +1,6 @@
 import unittest
 import os
 from xalanih.core.dbcreator import DBCreator
-from xalanih.core.constants import Constants
 from xalanih.core.xalanihexception import XalanihException
 from xalanih.core.mysql.mysqlrequesthandler import MysqlRequestHandler
 from xalanih.test.mocks.connection import Connection
@@ -16,8 +15,7 @@ class TestDBCreatorMySQL(unittest.TestCase):
         self.logger = Logger()
         self.dir = os.path.dirname(__file__) + "/data/"
         self.req_handler = MysqlRequestHandler()
-        self.dbcreator = DBCreator(self.dir, self.connection, self.req_handler,
-                                    self.logger)
+        self.dbcreator = DBCreator(self.dir, self.connection, self.req_handler, self.logger)
 
     def tearDown(self):
         self.connection.reinit()
@@ -30,8 +28,8 @@ class TestDBCreatorMySQL(unittest.TestCase):
         with self.assertRaises(XalanihException) as cm:
             self.dbcreator.create_database(checker)
         self.assertEqual(XalanihException.TABLE_EXISTS,
-                         cm.exception.getErrorCode(),
-                            "Wrong error code.")
+                         cm.exception.get_error_code(),
+                         "Wrong error code.")
 
     def test_createDbNoScript(self):
         checker = DBChecker(exists=False)
@@ -40,16 +38,15 @@ class TestDBCreatorMySQL(unittest.TestCase):
         with self.assertRaises(XalanihException) as cm:
             self.dbcreator.create_database(checker)
         self.assertEqual(XalanihException.NO_CREATION_SCRIPT,
-                         cm.exception.getErrorCode(),
-                            "Wrong error code.")
+                         cm.exception.get_error_code(),
+                         "Wrong error code.")
 
     def test_createDbSuccess(self):
         checker = DBChecker(exists=False)
 
         self.connection.set_result_list([()])
         self.dir = self.dir + "/creation_test/"
-        self.dbcreator = DBCreator(self.dir, self.connection, self.req_handler,
-                                    self.logger)
+        self.dbcreator = DBCreator(self.dir, self.connection, self.req_handler, self.logger)
         self.dbcreator.create_database(checker)
 
         queries = self.connection.get_queries()
@@ -61,11 +58,11 @@ class TestDBCreatorMySQL(unittest.TestCase):
         for line in lines:
             if line != "":
                 self.assertTrue(self.isUpdateIncluded(line.strip()),
-                                    "Script {0} not included."
-                                        .format(line.strip()))
+                                "Script {0} not included."
+                                .format(line.strip()))
 
         self.assertTrue(self.isXalanihTableRequested(), 
-                            "Creation of Xalanih table not requested.")
+                        "Creation of Xalanih table not requested.")
 
     def isUpdateIncluded(self, update):
         for q in self.connection.get_queries():

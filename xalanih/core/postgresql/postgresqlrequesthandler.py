@@ -19,9 +19,9 @@ class PostgreSQLRequestHandler(RequestHandler):
                 "{2} VARCHAR(150) NOT NULL,"
                 "{3} TIME NOT NULL,"
                 "PRIMARY KEY ({1}));").format(Constants.XALANIH_TABLE,
-                                                Constants.COL_ID,
-                                                Constants.COL_UPDT_NAME,
-                                                Constants.COL_UPDT_TIME)
+                                              Constants.COL_ID,
+                                              Constants.COL_UPDT_NAME,
+                                              Constants.COL_UPDT_TIME)
 
     def request_update_recording(self):
         """
@@ -30,8 +30,8 @@ class PostgreSQLRequestHandler(RequestHandler):
         return ("INSERT INTO {0} "
                 "({1}, {2}) "
                 "VALUES (%s, NOW())").format(Constants.XALANIH_TABLE,
-                                                Constants.COL_UPDT_NAME,
-                                                Constants.COL_UPDT_TIME)
+                                             Constants.COL_UPDT_NAME,
+                                             Constants.COL_UPDT_TIME)
     
     def request_update(self):
         """

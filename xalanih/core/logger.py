@@ -1,5 +1,6 @@
 import logging
 
+
 class Logger:
     
     def __init__(self, logfile, verbosity):
@@ -7,7 +8,7 @@ class Logger:
         self.python_logger = logging.getLogger("xalanih")
         self.python_logger.setLevel(logging.DEBUG)
         self.python_logger.addHandler(self.__get_console_handler(level))
-        if logfile != None:
+        if logfile is not None:
             self.python_logger.addHandler(self.__get_file_handler(logfile))
 
     def error(self, msg):
@@ -22,10 +23,12 @@ class Logger:
     def debug(self, msg):
         self.python_logger.debug(msg)
 
-    def shutdown(self):
+    @staticmethod
+    def shutdown():
         logging.shutdown()
 
-    def __get_log_level(self, verbosity):
+    @staticmethod
+    def __get_log_level(verbosity):
         if verbosity == 0:
             return 60
         elif verbosity == 1:
@@ -50,8 +53,10 @@ class Logger:
         handler.setFormatter(self.__get_console_formatter())
         return handler
 
-    def __get_file_formatter(self):
+    @staticmethod
+    def __get_file_formatter():
         return logging.Formatter("%(asctime)s - %(levelname)s: %(message)s")
 
-    def __get_console_formatter(self):
+    @staticmethod
+    def __get_console_formatter():
         return logging.Formatter("%(levelname)s: %(message)s")

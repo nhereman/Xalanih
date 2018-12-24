@@ -1,12 +1,10 @@
-from xalanih.core.mysql.mysqlconnector import MysqlConnector
 from xalanih.core.sqlfileexecutor import SqlFileExecutor
 from xalanih.core.requesthandler import RequestHandler
-from xalanih.core.parameters import Parameters
 from xalanih.core.logger import Logger
 from xalanih.core.xalanihexception import XalanihException
 from xalanih.core.constants import Constants
-import sqlparse
 import os
+
 
 class DBUpdator:
 
@@ -19,7 +17,7 @@ class DBUpdator:
         - request_handler: The request handler associated to the type of db.
         - logger: The logger.
         """
-        assert isinstance(request_handler,RequestHandler)
+        assert isinstance(request_handler, RequestHandler)
         assert isinstance(logger, Logger)
         self.directory = directory
         self.connection = connection
@@ -38,10 +36,10 @@ class DBUpdator:
         self.logger.info("Updating database.")
         if not db_checker.check_db_exists():
             raise XalanihException("The xalanih table does not exist.",
-                                    XalanihException.TABLE_NOT_FOUND)
+                                   XalanihException.TABLE_NOT_FOUND)
         updates_to_apply = self.__get_list_of_updates_to_apply(last_update)
         self.logger.info("Application of {0} updates."
-                            .format(len(updates_to_apply)))
+                         .format(len(updates_to_apply)))
         for update in updates_to_apply:
             self.__apply_update(update)
         self.logger.info("Database updated.")
@@ -65,7 +63,7 @@ class DBUpdator:
         """
         self.logger.info("Applying update " + update + ".")
         filepath = (self.directory + "/" + Constants.DIR_UPDATE + "/" + update 
-                        + ".sql")
+                    + ".sql")
         update_file = open(filepath)
         SqlFileExecutor.execute(self.connection, update_file, self.logger)
         update_file.close()
@@ -78,7 +76,7 @@ class DBUpdator:
         """
         directory = self.directory + "/" + Constants.DIR_UPDATE
         self.logger.debug("Getting list of sql files in directory: {0}"
-                            .format(directory))
+                          .format(directory))
         files = os.listdir(directory)
         result = [f[:-4] for f in files if f.endswith(".sql")]
         result.sort()
@@ -94,7 +92,7 @@ class DBUpdator:
                 last_update removed.
         throws: XalanihException if the last_update does not exists.
         """
-        if last_update == None:
+        if last_update is None:
             return updates
         self.logger.debug("Filtering updates after {0}".format(last_update))
         try:
@@ -102,8 +100,8 @@ class DBUpdator:
             return updates[:index+1]
         except ValueError:
             raise XalanihException("The update {0} does not exist."
-                                        .format(last_update),
-                                    XalanihException.UPDATE_NOT_FOUND)
+                                   .format(last_update),
+                                   XalanihException.UPDATE_NOT_FOUND)
 
     def __remove_updates_already_applied(self, updates):
         """
@@ -113,7 +111,7 @@ class DBUpdator:
         returns: The list of update without the one already applied.
         """
         return [update for update in updates 
-                    if not self.__is_update_already_applied(update)]
+                if not self.__is_update_already_applied(update)]
 
     def __record_update(self, update):
         self.logger.debug("Registering update: {0}".format(update))
@@ -121,7 +119,7 @@ class DBUpdator:
         request = self.request_handler.request_update_recording()
         self.logger.debug("[REQUEST] {0}".format(request))
         self.logger.debug("[REQUEST PARAMETERS] {0}".format([update]))
-        cursor.execute(request ,[update])
+        cursor.execute(request, [update])
         cursor.close()
 
     def __is_update_already_applied(self, update):
@@ -132,14 +130,14 @@ class DBUpdator:
         return: True if the update has already been applied. False otherwise.
         """
         self.logger.debug("Looking if the update {0} has already been applied."
-                            .format(update))
+                          .format(update))
         cursor = self.connection.cursor()
         request = self.request_handler.request_update()
         self.logger.debug("[REQUEST] {0}".format(request))
         self.logger.debug("[REQUEST PARAMETERS] {0}".format([update]))
-        cursor.execute(request,[update])
+        cursor.execute(request, [update])
         self.logger.debug("[REQUEST RESULT] Number of entries found: {0}"
-                            .format(cursor.rowcount))
+                          .format(cursor.rowcount))
         cursor.close()
         return cursor.rowcount == 1
 

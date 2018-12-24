@@ -4,6 +4,7 @@ from xalanih.core.dbconnector import DBConnector
 from xalanih.core.logger import Logger
 from xalanih.core.xalanihexception import XalanihException
 
+
 class PostgreSQLConnector(DBConnector):
 
     def __init__(self, params, logger):
@@ -25,10 +26,10 @@ class PostgreSQLConnector(DBConnector):
         Establish a connection with the database.
         returns: The connection object.
         """
-        if self.connection != None:
+        if self.connection is not None:
             raise XalanihException("You are already connected",
                                    XalanihException.ALREADY_CONNECTED)
-        self.connection = db.connect(**self.__getConnectArgument())
+        self.connection = db.connect(**self.__get_connect_argument())
         self.logger.info("Connected.")
         return self.connection
 
@@ -38,7 +39,7 @@ class PostgreSQLConnector(DBConnector):
         """
         return self.connection
 
-    def __getConnectArgument(self):
+    def __get_connect_argument(self):
         """
         Return the list of arguments used to connect to the mysql database.
         returns: The list of arguments used to connect to the mysql database.
@@ -54,10 +55,10 @@ class PostgreSQLConnector(DBConnector):
         arguments["dbname"] = database
         arguments["user"] = user
 
-        if port != None:
+        if port is not None:
             arguments["port"] = port
 
-        if password != None:
+        if password is not None:
             arguments["password"] = password
 
         return arguments
